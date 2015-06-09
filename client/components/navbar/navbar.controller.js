@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('powwowNinjaApp')
+angular.module('PowwowNinjaApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
       'title': 'Home',

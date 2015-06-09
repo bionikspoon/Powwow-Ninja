@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('powwowNinjaApp')
+angular.module('PowwowNinjaApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};

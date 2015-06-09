@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('powwowNinjaApp')
+angular.module('PowwowNinjaApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('login', {
