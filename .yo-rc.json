@@ -30,7 +30,7 @@
     "filterDirectory":           "client/app/",
     "serviceDirectory":          "client/app/",
     "basePath":                  "client",
-    "moduleName":                "",
+    "moduleName":                "PowwowNinjaApp",
     "filters":                   [
       "uirouter"
     ],
