@@ -6,7 +6,7 @@ var auth = require('../auth.service');
 
 var router = express.Router();
 
-router
+router//
   .get('/', passport.authenticate('google', {
     failureRedirect: '/signup',
     scope: [
@@ -14,8 +14,7 @@ router
       'https://www.googleapis.com/auth/userinfo.email'
     ],
     session: false
-  }))
-
+  }))//
   .get('/callback', passport.authenticate('google', {
     failureRedirect: '/signup',
     session: false

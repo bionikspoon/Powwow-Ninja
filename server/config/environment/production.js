@@ -2,22 +2,23 @@
 
 // Production specific configuration
 // =================================
+//noinspection OverlyComplexBooleanExpressionJS
 module.exports = {
-  // Server IP
+  // Server IP //:off
   ip:       process.env.OPENSHIFT_NODEJS_IP ||
             process.env.IP ||
-            undefined,
+            undefined,//:on
 
-  // Server port
+  // Server port //:off
   port:     process.env.OPENSHIFT_NODEJS_PORT ||
             process.env.PORT ||
-            8080,
+            8080,//:on
 
   // MongoDB connection options
-  mongo: {
+  mongo: { //:off
     uri:    process.env.MONGOLAB_URI ||
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/powwowninja'
-  }
+            'mongodb://localhost/powwow'
+  } //:on
 };

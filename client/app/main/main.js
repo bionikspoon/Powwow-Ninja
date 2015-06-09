@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('PowwowNinjaApp')
+
   .config(function ($stateProvider) {
-    $stateProvider
+    $stateProvider//
       .state('main', {
         url: '/',
         templateUrl: 'app/main/main.html',

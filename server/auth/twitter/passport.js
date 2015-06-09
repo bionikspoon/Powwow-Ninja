@@ -6,11 +6,10 @@ exports.setup = function (User, config) {
     consumerKey: config.twitter.clientID,
     consumerSecret: config.twitter.clientSecret,
     callbackURL: config.twitter.callbackURL
-  },
-  function(token, tokenSecret, profile, done) {
+  }, function (token, tokenSecret, profile, done) {
     User.findOne({
       'twitter.id_str': profile.id
-    }, function(err, user) {
+    }, function (err, user) {
       if (err) {
         return done(err);
       }
@@ -22,7 +21,7 @@ exports.setup = function (User, config) {
           provider: 'twitter',
           twitter: profile._json
         });
-        user.save(function(err) {
+        user.save(function (err) {
           if (err) return done(err);
           return done(err, user);
         });
@@ -30,6 +29,5 @@ exports.setup = function (User, config) {
         return done(err, user);
       }
     });
-    }
-  ));
+  }));
 };
