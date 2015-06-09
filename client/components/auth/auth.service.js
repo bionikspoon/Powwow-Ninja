@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('PowwowNinjaApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+
+  .factory('Auth',
+  function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    if ($cookieStore.get('token')) {
       currentUser = User.get();
     }
 
@@ -16,25 +18,25 @@ angular.module('PowwowNinjaApp')
        * @param  {Function} callback - optional
        * @return {Promise}
        */
-      login: function(user, callback) {
+      login: function (user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
         $http.post('/auth/local', {
           email: user.email,
           password: user.password
-        }).
-        success(function(data) {
-          $cookieStore.put('token', data.token);
-          currentUser = User.get();
-          deferred.resolve(data);
-          return cb();
-        }).
-        error(function(err) {
-          this.logout();
-          deferred.reject(err);
-          return cb(err);
-        }.bind(this));
+        })//
+          .success(function (data) {
+            $cookieStore.put('token', data.token);
+            currentUser = User.get();
+            deferred.resolve(data);
+            return cb();
+          })//
+          .error(function (err) {
+            this.logout();
+            deferred.reject(err);
+            return cb(err);
+          }.bind(this));
 
         return deferred.promise;
       },
@@ -44,7 +46,7 @@ angular.module('PowwowNinjaApp')
        *
        * @param  {Function}
        */
-      logout: function() {
+      logout: function () {
         $cookieStore.remove('token');
         currentUser = {};
       },
@@ -56,19 +58,17 @@ angular.module('PowwowNinjaApp')
        * @param  {Function} callback - optional
        * @return {Promise}
        */
-      createUser: function(user, callback) {
+      createUser: function (user, callback) {
         var cb = callback || angular.noop;
 
-        return User.save(user,
-          function(data) {
-            $cookieStore.put('token', data.token);
-            currentUser = User.get();
-            return cb(user);
-          },
-          function(err) {
-            this.logout();
-            return cb(err);
-          }.bind(this)).$promise;
+        return User.save(user, function (data) {
+          $cookieStore.put('token', data.token);
+          currentUser = User.get();
+          return cb(user);
+        }, function (err) {
+          this.logout();
+          return cb(err);
+        }.bind(this)).$promise;
       },
 
       /**
@@ -79,15 +79,15 @@ angular.module('PowwowNinjaApp')
        * @param  {Function} callback    - optional
        * @return {Promise}
        */
-      changePassword: function(oldPassword, newPassword, callback) {
+      changePassword: function (oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
+        return User.changePassword({id: currentUser._id}, {
           oldPassword: oldPassword,
           newPassword: newPassword
-        }, function(user) {
+        }, function (user) {
           return cb(user);
-        }, function(err) {
+        }, function (err) {
           return cb(err);
         }).$promise;
       },
@@ -97,7 +97,7 @@ angular.module('PowwowNinjaApp')
        *
        * @return {Object} user
        */
-      getCurrentUser: function() {
+      getCurrentUser: function () {
         return currentUser;
       },
 
@@ -106,21 +106,23 @@ angular.module('PowwowNinjaApp')
        *
        * @return {Boolean}
        */
-      isLoggedIn: function() {
+      isLoggedIn: function () {
         return currentUser.hasOwnProperty('role');
       },
 
       /**
        * Waits for currentUser to resolve before checking if user is logged in
        */
-      isLoggedInAsync: function(cb) {
-        if(currentUser.hasOwnProperty('$promise')) {
-          currentUser.$promise.then(function() {
-            cb(true);
-          }).catch(function() {
-            cb(false);
-          });
-        } else if(currentUser.hasOwnProperty('role')) {
+      isLoggedInAsync: function (cb) {
+        if (currentUser.hasOwnProperty('$promise')) {
+          currentUser.$promise//
+            .then(function () {
+              cb(true);
+            })//
+            .catch(function () {
+              cb(false);
+            });
+        } else if (currentUser.hasOwnProperty('role')) {
           cb(true);
         } else {
           cb(false);
@@ -132,14 +134,14 @@ angular.module('PowwowNinjaApp')
        *
        * @return {Boolean}
        */
-      isAdmin: function() {
+      isAdmin: function () {
         return currentUser.role === 'admin';
       },
 
       /**
        * Get auth token
        */
-      getToken: function() {
+      getToken: function () {
         return $cookieStore.get('token');
       }
     };

@@ -2,13 +2,17 @@
 'use strict';
 
 angular.module('PowwowNinjaApp')
-  .factory('socket', function(socketFactory) {
 
-    // socket.io now auto-configures its connection when we ommit a connection url
+  .factory('socket', function (socketFactory) {
+
+    // socket.io now auto-configures its connection when we ommit a connection
+    // url
     var ioSocket = io('', {
-      // Send auth token on connection, you will need to DI the Auth service above
-      // 'query': 'token=' + Auth.getToken()
+      // Send auth token on connection, you will need to DI the Auth service
+      // above
       path: '/socket.io-client'
+      // 'query': 'token=' + Auth.getToken()
+
     });
 
     var socket = socketFactory({
@@ -21,8 +25,9 @@ angular.module('PowwowNinjaApp')
       /**
        * Register listeners to sync an array with updates on a model
        *
-       * Takes the array we want to sync, the model name that socket updates are sent from,
-       * and an optional callback function after new items are updated.
+       * Takes the array we want to sync, the model name that socket updates
+       * are sent from, and an optional callback function after new items are
+       * updated.
        *
        * @param {String} modelName
        * @param {Array} array
