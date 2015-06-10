@@ -10,15 +10,15 @@ angular.module('PowwowNinjaApp')
         templateUrl: 'app/meetings/meetings.html',
         controller: 'MeetingsCtrl',
         abstract: true
-      }).state('meetings.index', {
+      })//
+      .state('meetings.show', {
+        url: '/{id:[0-9a-fA-F]{5}}',
+        templateUrl: 'app/meetings/MeetingsShow/meetings.show.html',
+        controller: 'MeetingsShowCtrl'
+      })//
+      .state('meetings.index', {
         url: '/',
-        templateUrl: 'MeetingsIndex/meetings.index.html',
+        templateUrl: 'app/meetings/MeetingsIndex/meetings.index.html',
         controller: 'MeetingsIndexCtrl'
       });
   });
-/*//
- .state('meetings.show', {
- url: '/{id:[0-9a-fA-F]{24}}/',
- templateUrl: 'app/meetings/MeetingsShow/meetings.show.html',
- controller: 'MeetingsShowCtrl'
- })*///

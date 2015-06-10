@@ -14,11 +14,12 @@ angular.module('PowwowNinjaApp', [
 ])
 
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider,
-    $httpProvider) {
+    $httpProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+    $urlMatcherFactoryProvider.strictMode(false);
   })
 
   .factory('authInterceptor',
@@ -56,4 +57,6 @@ angular.module('PowwowNinjaApp', [
         }
       });
     });
-  });
+  })
+
+  .constant('Marked', marked);
