@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('PowwowNinjaApp')
-
-  .controller('MainCtrl', function ($scope) {
+  .controller('MeetingsCtrl', function ($scope) {
     $scope.message = 'Hello';
   });

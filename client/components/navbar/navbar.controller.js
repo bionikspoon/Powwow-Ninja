@@ -6,7 +6,11 @@ angular.module('PowwowNinjaApp')
     $scope.menu = [
       {
         'title': 'Home',
-        'link': '/'
+        'link': 'home'
+      },
+      {
+        'title': 'Meetings',
+        'link': 'meetings.index'
       }
     ];
 
