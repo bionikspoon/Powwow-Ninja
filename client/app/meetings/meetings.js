@@ -2,8 +2,8 @@
 
 angular.module('PowwowNinjaApp')
 
-  .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.when('/meetings', '/meetings/');
+  .config(function ($stateProvider) {
+
     $stateProvider//
       .state('meetings', {
         url: '/meetings',
@@ -17,7 +17,7 @@ angular.module('PowwowNinjaApp')
         controller: 'MeetingsShowCtrl'
       })//
       .state('meetings.index', {
-        url: '/',
+        url: '',
         templateUrl: 'app/meetings/MeetingsIndex/meetings.index.html',
         controller: 'MeetingsIndexCtrl'
       });

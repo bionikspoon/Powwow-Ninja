@@ -11,6 +11,14 @@ angular.module('PowwowNinjaApp')
       {
         'title': 'Meetings',
         'link': 'meetings.index'
+      },
+      {
+        'title': 'Meeting Auth',
+        'link': 'meetings.show({id:12345})'
+      },
+      {
+        'title': 'Meeting No Auth',
+        'link': 'meetings.show({id:"ABCDE"})'
       }
     ];
 
