@@ -1,0 +1,7 @@
+<ul>
+    <li ng-repeat="meeting in meetings">
+        <a ui-sref="meeting.show({id: meeting._id})">
+            {{ meeting._id }}
+        </a>
+    </li>
+</ul>
