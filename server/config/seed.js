@@ -5,7 +5,7 @@
 
 'use strict';
 
-var Thing = require('../api/thing/thing.model');
+var Thing = require('.././thing.model');
 var User = require('../api/user/user.model');
 var Meeting = require('../api/meeting/meeting.model');
 var faker = require('faker');
@@ -70,7 +70,7 @@ User.find({}).remove(function () {
     if (error) { console.error(error); }
     var users = _.drop(arguments);
     console.log('finished populating users');
-    seedMeeting(users);
+    //seedMeeting(users);
   });
 });
 

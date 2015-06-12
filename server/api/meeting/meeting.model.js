@@ -13,7 +13,7 @@ var MeetingSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  members: [
+  attendance: [
     {
       user: {
         type: Schema.Types.ObjectId,
@@ -24,11 +24,7 @@ var MeetingSchema = new Schema({
         status: String
       },
       checkin: Date,
-      checkout: Date,
-      role: {
-        type: String,
-        default: 'MEMBER'
-      }
+      checkout: Date
     }
   ],
   resources: [

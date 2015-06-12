@@ -1,10 +1,10 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /things              ->  index
- * POST    /things              ->  create
- * GET     /things/:id          ->  show
- * PUT     /things/:id          ->  update
- * DELETE  /things/:id          ->  destroy
+ * GET     /meetings              ->  index
+ * POST    /meetings              ->  create
+ * GET     /meetings/:id          ->  show
+ * PUT     /meetings/:id          ->  update
+ * DELETE  /meetings/:id          ->  destroy
  */
 
 'use strict';
