@@ -18,8 +18,8 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
-  require('.././group.socket').register(socket);
-  require('.././meeting.socket').register(socket);
+  //require('.././group.socket').register(socket);
+  //require('.././meeting.socket').register(socket);
 }
 
 module.exports = function (socketio) {
