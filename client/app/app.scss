@@ -1,6 +1,9 @@
+/**
+ * app.scss
+ */
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
-@import "variables";
+@import 'variables.scss';
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'font-awesome/scss/font-awesome';
 
@@ -26,5 +29,7 @@ body {
 @import 'admin/admin.scss';
 @import 'home/home.scss';
 @import 'meeting/base/meeting.scss';
+@import 'meeting/meeting-members/meeting-members.scss';
+@import 'contenteditable/contenteditable.scss';
 @import 'modal/modal.scss';
 // endinjector

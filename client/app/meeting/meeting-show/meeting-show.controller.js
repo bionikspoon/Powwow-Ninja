@@ -1,15 +1,10 @@
 'use strict';
 
-var now = function () {
-  var date = new Date();
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  return date;
-};
+
 
 angular.module('PowwowNinjaApp').controller('MeetingShowCtrl',
   function ($scope) {
-    $scope.memberConfig = {};
+
     $scope.members = [
       {name: 'Bill'},
       {name: 'Bob'},
@@ -19,21 +14,16 @@ angular.module('PowwowNinjaApp').controller('MeetingShowCtrl',
       {name: 'Dracula'},
       {name: 'Pat'}
     ];
+    $scope.followupItems = [];
     $scope.agendaItems = [
-      {name: 'Follow ups'},
-      {name: 'Save the world'}
+      {title: 'Save the world'},
+      {title: 'Work on project'},
+      {title: 'Solve the problem'}
     ];
 
 
-    $scope.checkin = function (member) {
-      member.checkin = now();
-    };
-    $scope.checkout = function (member) {
-      member.checkout = now();
-    };
-
-    $scope.toggleMemberConfig = function (index) {
-      $scope.memberConfig[index] = !$scope.memberConfig[index]
+    $scope.setActiveItem = function (index) {
+      $scope.activeItem = /*($scope.activeItem === index) ? null :*/ index;
     }
 
   });

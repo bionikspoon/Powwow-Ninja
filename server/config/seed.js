@@ -139,8 +139,8 @@ function populateAgenda(users) {
         'CLOSED'
       ])
     };
-    agendaItem.assignments.push(assignment);
+    item.assignments.push(assignment);
   });
 
-  return agendaItem;
+  return item;
 }

@@ -1,8 +1,13 @@
+/**
+ * home.scss
+ */
+
 #home {
   header {
     text-align: center;
     background: $brand-info;
     color: white;
+    margin-top: -20px;
     .container {
       padding-top: 30px;
       padding-bottom: 50px;

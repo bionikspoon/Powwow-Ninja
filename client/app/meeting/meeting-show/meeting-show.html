@@ -1,99 +1,74 @@
 <div class="container-fluid">
-    <div class="page-header">
-        <h1>
-            Meeting </h1>
-    </div>
-    <!-- /.page-header -->
-    <div class="row">
-        <section class="col-sm-3">
+   <div class="page-header">
+      <h1>
+         Meeting </h1>
+   </div>
+   <!-- /.page-header -->
+   <div class="row">
+      <section class="col-sm-3">
+         <meeting-members members="members"></meeting-members>
+      </section>
+      <!-- /.list-group col-sm-3 -->
+
+      <section class="col-sm-6">
+         <h2>Agenda</h2>
+
+         <div id="follow-ups" ng-if="followupItems.length">
+            <h3>
+               <small>Follow-ups</small>
+            </h3>
             <div class="list-group">
-                <h2>
-                    <small>Members</small>
-                </h2>
-                <a href
-                   class="list-group-item"
-                   ng-repeat="member in members"
-                   ng-class="{
-                    'list-group-item-success': member.checkin && !member.checkout,
-                    'list-group-item-danger': member.checkout
-               }">
-
-                    <p class="list-group-item-text">
-                        {{ member.name }}
-
-                <span class="btn-group btn-group-xs pull-right">
-                    <button class="btn"
-                            ng-class="member.checkin ? 'btn-success disabled' : 'btn-default'"
-                            ng-click="checkin(member)">
-                        <span class="glyphicon glyphicon-ok"></span>
-                    </button>
-                    <button class="btn btn-default"
-                            ng-disabled="member.checkout || !member.checkin"
-                            ng-click="checkout(member)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-
-                    <button ng-click="toggleMemberConfig($index)"
-                            class="btn"
-                            ng-class="memberConfig[$index] ? 'btn-info' : 'btn-default'">
-                        <span class="glyphicon glyphicon-cog"></span>
-
-                    </button>
-                </span>
-                        <!-- /.btn-group btn-group-xs -->
-
-                    </p>
-                    <!-- /.list-group-item-text -->
-
-                    <div class="list-group-item-text"
-                         ng-show="memberConfig[$index]">
-
-                        <div class="input-group input-group-sm checkin-checkout">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default"
-                                    ng-click="member.checkin = null;member.checkout = null">
-                                &times;
-                            </button>
-                        </span>
-                            <input type="time"
-                                   class="form-control"
-                                   ng-model="member.checkin" />
-                        </div>
-                        <!-- /.input-group input-group-sm -->
-                        <div class="input-group input-group-sm checkin-checkout">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default"
-                                    ng-click="member.checkout = null">
-                                &times;
-                            </button>
-                        </span>
-                            <input type="time"
-                                   class="form-control"
-                                   ng-model="member.checkout" />
-                        </div>
-                        <!-- /.input-group input-group-sm -->
-
-
-                    </div>
-                    <!-- /.list-group-item-text -->
-
-
-                </a>
-                <!-- /.list-group-item -->
+               <a href
+                  class="list-group-item"
+                  ng-repeat="item in followupItems">
+                  <p class="list-group-item-text">
+                     {{ item.title }} </p>
+                  <!-- /.list-group-item-text -->
+               </a>
+               <!-- /.list-group-item -->
             </div>
             <!-- /.list-group -->
-        </section>
-        <!-- /.list-group col-sm-3 -->
+         </div>
+         <!-- /#follow-ups -->
 
-        <section class="col-sm-6">
-            <h2>Agenda</h2>
-            <div class="well" ng-repeat="agendaItem in agendaItems">
-                {{ agendaItem.name }}
+         <h3 ng-if="followupItems.length">
+            <small>New Items</small>
+         </h3>
+         <div class="list-group">
+            <div class="list-group-item"
+               ng-repeat="item in agendaItems"
+               ng-click="setActiveItem($index)"
+               ng-class="{'active':activeItem === $index}">
+               <span class="btn-group btn-group-xs pull-right" role="group">
+                  <button class="btn btn-default" role="button">
+                     <span class="glyphicon glyphicon-ok"></span>
+                  </button>
+                  <!-- /.btn btn-default -->
+                  <button class="btn btn-default" role="button">
+                     <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                  <!-- /.btn btn-default -->
+                  <button class="btn btn-default" role="button">
+                     <span class="glyphicon glyphicon-time"></span>
+                  </button>
+                  <!-- /.btn btn-default -->
+               </span>
+               <!-- /.btn-group btn-group-xs pull-right -->
+               <h4 class="list-group-item-header"
+                  contenteditable
+                  ng-model="item.title"></h4>
+               <!-- /.list-group-item-text -->
+
+               <p class="list-group-item-text" ng-bind-html="item.title"></p>
+               <!-- /.list-group-item-text -->
             </div>
-            <!-- /.well -->
-        </section>
-        <!-- /.col-sm-6 list-group -->
+            <!-- /.list-group-item -->
+         </div>
+         <!-- /.list-group -->
 
-    </div>
-    <!-- /.row -->
+      </section>
+      <!-- /.col-sm-6 list-group -->
+
+   </div>
+   <!-- /.row -->
 </div><!-- /.container-fluid -->

@@ -7,7 +7,12 @@ angular.module('PowwowNinjaApp')
       {
         'title': 'Home',
         'link': 'home'
+      },
+      {
+        title: 'Meeting',
+        link: 'meeting.show({id: "557a1a2adbd455a82cef93f1"})'
       }
+
     ];
 
     $scope.isCollapsed = true;
