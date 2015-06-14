@@ -1,9 +1,9 @@
 'use strict';
 
+angular.module('PowwowNinjaApp')
 
-
-angular.module('PowwowNinjaApp').controller('MeetingShowCtrl',
-  function ($scope) {
+  .controller('MeetingShowCtrl', function ($scope) {
+    $scope.activeItem = null;
 
     $scope.members = [
       {name: 'Bill'},
@@ -14,16 +14,24 @@ angular.module('PowwowNinjaApp').controller('MeetingShowCtrl',
       {name: 'Dracula'},
       {name: 'Pat'}
     ];
-    $scope.followupItems = [];
-    $scope.agendaItems = [
-      {title: 'Save the world'},
-      {title: 'Work on project'},
-      {title: 'Solve the problem'}
+
+    $scope.agendaTopics = [
+      {
+        title: 'Follow-ups',
+        items: [{title: 'Setup meetings'}]
+      },
+      {
+        title: 'New Items',
+        items: [
+          {title: 'Save the world'},
+          {title: 'Work on project'},
+          {title: 'Solve the problem'}
+        ]
+      }
     ];
 
-
-    $scope.setActiveItem = function (index) {
-      $scope.activeItem = /*($scope.activeItem === index) ? null :*/ index;
+    $scope.setActiveItem = function (item) {
+      $scope.activeItem = item;
     }
 
   });

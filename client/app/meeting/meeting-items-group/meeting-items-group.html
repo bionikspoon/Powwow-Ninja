@@ -1,0 +1,36 @@
+<div class="meeting-items-group">
+   <h3 ng-if="showTitle">
+      <small ng-transclude></small>
+   </h3>
+   <div class="list-group">
+      <div class="list-group-item"
+         ng-repeat="item in items"
+         ng-click="setActiveItem(item)"
+         ng-class="{'active':activeItem === item}">
+         <span class="btn-group btn-group-xs pull-right" role="group">
+            <button class="btn btn-default" role="button">
+               <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <!-- /.btn btn-default -->
+            <button class="btn btn-default" role="button">
+               <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <!-- /.btn btn-default -->
+            <button class="btn btn-default" role="button">
+               <span class="glyphicon glyphicon-time"></span>
+            </button>
+            <!-- /.btn btn-default -->
+         </span><!-- /.btn-group btn-group-xs pull-right -->
+         <h4 class="list-group-item-header"
+            contenteditable
+            ng-model="item.title"></h4><!-- /.list-group-item-text -->
+
+         <textarea ng-bind="item.notes"
+            class="form-control resize-height"></textarea>
+
+      </div>
+      <!-- /.list-group-item -->
+   </div>
+   <!-- /.list-group -->
+
+</div><!-- /.meeting-items-group -->

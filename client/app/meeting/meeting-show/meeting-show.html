@@ -13,58 +13,13 @@
       <section class="col-sm-6">
          <h2>Agenda</h2>
 
-         <div id="follow-ups" ng-if="followupItems.length">
-            <h3>
-               <small>Follow-ups</small>
-            </h3>
-            <div class="list-group">
-               <a href
-                  class="list-group-item"
-                  ng-repeat="item in followupItems">
-                  <p class="list-group-item-text">
-                     {{ item.title }} </p>
-                  <!-- /.list-group-item-text -->
-               </a>
-               <!-- /.list-group-item -->
-            </div>
-            <!-- /.list-group -->
-         </div>
-         <!-- /#follow-ups -->
-
-         <h3 ng-if="followupItems.length">
-            <small>New Items</small>
-         </h3>
-         <div class="list-group">
-            <div class="list-group-item"
-               ng-repeat="item in agendaItems"
-               ng-click="setActiveItem($index)"
-               ng-class="{'active':activeItem === $index}">
-               <span class="btn-group btn-group-xs pull-right" role="group">
-                  <button class="btn btn-default" role="button">
-                     <span class="glyphicon glyphicon-ok"></span>
-                  </button>
-                  <!-- /.btn btn-default -->
-                  <button class="btn btn-default" role="button">
-                     <span class="glyphicon glyphicon-plus"></span>
-                  </button>
-                  <!-- /.btn btn-default -->
-                  <button class="btn btn-default" role="button">
-                     <span class="glyphicon glyphicon-time"></span>
-                  </button>
-                  <!-- /.btn btn-default -->
-               </span>
-               <!-- /.btn-group btn-group-xs pull-right -->
-               <h4 class="list-group-item-header"
-                  contenteditable
-                  ng-model="item.title"></h4>
-               <!-- /.list-group-item-text -->
-
-               <p class="list-group-item-text" ng-bind-html="item.title"></p>
-               <!-- /.list-group-item-text -->
-            </div>
-            <!-- /.list-group-item -->
-         </div>
-         <!-- /.list-group -->
+         <meeting-items-group active-item='activeItem'
+            ng-repeat="topic in agendaTopics"
+            items="topic.items"
+            show-title="agendaTopics.length > 1"
+            set-active-item="setActiveItem">
+            {{ topic.title }}
+         </meeting-items-group>
 
       </section>
       <!-- /.col-sm-6 list-group -->
