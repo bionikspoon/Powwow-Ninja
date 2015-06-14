@@ -7,6 +7,9 @@ angular.module('PowwowNinjaApp')
       templateUrl: 'app/meeting/meeting-item/meeting-item.html',
       restrict: 'E',
       controller: 'MeetingItemCtrl',
-      scope: {item: '='}
+      scope: {
+        item: '=',
+        activeItem: '='
+      }
     };
   });

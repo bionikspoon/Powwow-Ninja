@@ -10,9 +10,5 @@ angular.module('PowwowNinjaApp')
     $scope.addAssignment = function () {
       $scope.item.assignments.push($scope.newAssignment);
       $scope.newAssignment = {};
-
-      $log.debug('meeting-items-group.controller    ',
-        '$scope.item: ',
-        $scope.item);
     }
   });
