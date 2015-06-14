@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: MeetingItemsGroupCtrl', function () {
+describe('Controller: MeetingItemCtrl', function () {
 
   // load the controller's module
   beforeEach(module('PowwowNinjaApp'));
 
-  var MeetingItemsGroupCtrl, scope;
+  var MeetingItemCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MeetingItemsGroupCtrl = $controller('MeetingItemsGroupCtrl', {
+    MeetingItemCtrl = $controller('MeetingItemCtrl', {
       $scope: scope
     });
   }));
