@@ -4,7 +4,7 @@
 <div class="list-group">
    <meeting-item ng-repeat="item in items"
       ng-click="setActiveItem(item)"
-      class="list-group-item"
+      class="list-group-item focus-outline-off"
       ng-class="{'list-group-item-info':activeItem === item}"
       item="item" active-item="activeItem === item"></meeting-item>
 </div>

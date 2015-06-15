@@ -1,0 +1,13 @@
+/**
+ * meeting-items-group.scss
+ */
+
+#meeting-items-group {
+
+}
+
+.focus-outline-off {
+  &:focus {
+    outline: none;
+  }
+}

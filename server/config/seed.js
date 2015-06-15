@@ -6,6 +6,8 @@
 'use strict';
 
 var User = require('../api/user/user.model');
+var Meeting = require('../api/meeting/meeting.model');
+
 var faker = require('faker');
 var _ = require('lodash');
 
@@ -45,102 +47,133 @@ User.find({}).remove(function () {
     if (error) { console.error(error); }
     var users = _.drop(arguments);
     console.log('finished populating users');
-    //seedMeeting(users);
+    Meeting.find({}).remove(function (error) {
+      if (error) { console.error(error); }
+
+      var meeting = new Meeting();
+      var members = [];
+      _.times(20, function () {
+        members.push(_.sample(users));
+      });
+
+      meeting.members = _.uniq(members);
+      meeting.topics = [
+        {
+          title: 'Follow-ups',
+          items: [{title: 'Setup meetings'}]
+        },
+        {
+          title: 'New Items',
+          items: [
+            {title: 'Save the world'},
+            {title: 'Work on project'},
+            {title: 'Solve the problem'}
+          ]
+        }
+      ];
+
+      meeting.save(function (error) {
+        if (error) { console.error(error); }
+        console.log('finished creating a Meeting');
+      });
+
+    });
+
   });
 });
 
-function seedMeeting(users) {
-  //noinspection JSUnresolvedFunction
-  Meeting.find({}).remove(function () {
-    var meetings = [];
-    var meeting;
-
-    _.times(20, function () {
-      /**
-       * Scaffold meeting.
-       */
-      meeting = {
-        meetingDate: faker.date.future(1 / 12),
-        members: [],
-        resources: [],
-        agenda: []/*,
-         chat: ''*/
-      };
-
-      /**
-       * Seed meeting members
-       */
-      _.times(_.random(5, 15), function () {
-        //noinspection JSUnresolvedVariable
-        meeting.members.push({
-          user: _.sample(users).id,
-          rsvp: faker.date.recent(), //checkin: Date,
-          //checkout: Date,
-          role: _.sample([
-            'MEMBER',
-            'MODERATOR',
-            'ADMIN'
-          ])
-        });
-      });
-
-      /**
-       * Seed meeting resources
-       */
-      _.times(_.random(3, 10), function () {
-        meeting.resources.push({
-          name: faker.company.bs(),
-          url: faker.image.imageUrl()
-        })
-      });
-
-      /**
-       * Seed meeting agenda
-       */
-      _.times(_.random(5, 15), function () {
-        meeting.agenda.push(populateAgenda(users))
-      });
-
-      meetings.push(meeting);
-    });
-
-    Meeting.create(meetings, function (error) {
-      if (error) { console.error(error); }
-
-      console.log('finished populating meetings');
-    });
-  });
-}
-
-/**
- * Create an Agenda.
- * @returns {{title: *, status: string, assignments: Array}}
- */
-function populateAgenda(users) {
-  var agendaItem = {
-    title: faker.company.catchPhrase(),
-    status: 'open',
-    assignments: []
-  };
-
-  _.times(_.random(5), function () {
-    //noinspection JSUnresolvedVariable
-    var assignment = {
-      title: faker.company.bs(),
-      owner: _.sample(users).id,
-      notes: [
-        {
-          author: _.sample(users).id,
-          content: faker.lorem.sentences()
-        }
-      ],
-      status: _.sample([
-        'OPEN',
-        'CLOSED'
-      ])
-    };
-    item.assignments.push(assignment);
-  });
-
-  return item;
-}
+//function seedMeeting(users) {
+//  //noinspection JSUnresolvedFunction
+//  Meeting.find({}).remove(function () {
+//    var meetings = [];
+//    var meeting;
+//
+//    _.times(20, function () {
+//      /**
+//       * Scaffold meeting.
+//       */
+//      meeting = {
+//        meetingDate: faker.date.future(1 / 12),
+//        members: [],
+//        resources: [],
+//        agenda: []/*,
+//         chat: ''*/
+//      };
+//
+//      /**
+//       * Seed meeting members
+//       */
+//      _.times(_.random(5, 15), function () {
+//        //noinspection JSUnresolvedVariable
+//        meeting.members.push({
+//          user: _.sample(users).id,
+//          rsvp: faker.date.recent(), //checkin: Date,
+//          //checkout: Date,
+//          role: _.sample([
+//            'MEMBER',
+//            'MODERATOR',
+//            'ADMIN'
+//          ])
+//        });
+//      });
+//
+//      /**
+//       * Seed meeting resources
+//       */
+//      _.times(_.random(3, 10), function () {
+//        meeting.resources.push({
+//          name: faker.company.bs(),
+//          url: faker.image.imageUrl()
+//        })
+//      });
+//
+//      /**
+//       * Seed meeting agenda
+//       */
+//      _.times(_.random(5, 15), function () {
+//        meeting.agenda.push(populateAgenda(users))
+//      });
+//
+//      meetings.push(meeting);
+//    });
+//
+//    Meeting.create(meetings, function (error) {
+//      if (error) { console.error(error); }
+//
+//      console.log('finished populating meetings');
+//    });
+//  });
+//}
+//
+///**
+// * Create an Agenda.
+// * @returns {{title: *, status: string, assignments: Array}}
+// */
+//function populateAgenda(users) {
+//  var agendaItem = {
+//    title: faker.company.catchPhrase(),
+//    status: 'open',
+//    assignments: []
+//  };
+//
+//  _.times(_.random(5), function () {
+//    //noinspection JSUnresolvedVariable
+//    var assignment = {
+//      title: faker.company.bs(),
+//      owner: _.sample(users).id,
+//      notes: [
+//        {
+//          author: _.sample(users).id,
+//          content: faker.lorem.sentences()
+//        }
+//      ],
+//      status: _.sample([
+//        'OPEN',
+//        'CLOSED'
+//      ])
+//    };
+//    item.assignments.push(assignment);
+//  });
+//
+//  return item;
+//}

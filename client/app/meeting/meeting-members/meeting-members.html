@@ -11,7 +11,6 @@
                   }">
 
       <p class="list-group-item-text">
-         {{ member.name }}
 
          <span class="btn-group btn-group-xs pull-right">
             <button class="btn"
@@ -29,10 +28,10 @@
                class="btn"
                ng-class="memberConfig[$index] ? 'btn-info' : 'btn-default'">
                <span class="glyphicon glyphicon-cog"></span>
-
             </button>
          </span>
          <!-- /.btn-group btn-group-xs -->
+         {{ member.name }}
 
       </p>
       <!-- /.list-group-item-text -->

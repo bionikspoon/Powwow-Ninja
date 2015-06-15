@@ -2,33 +2,20 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingShowCtrl', function ($scope, $log) {
+  .controller('MeetingShowCtrl',
+  function ($scope, $log, $stateParams, Restangular) {
+    var id = $stateParams.id;
+    var meeting = Restangular.one('api/meetings', id);
+    $scope.members = [];
+    $scope.topics = [];
+    meeting.get()//
+      .then(function (meeting) {
+        $log.debug('meeting-show.controller    ', 'meeting: ', meeting);
+        $scope.members = meeting.members;
+        $scope.topics = meeting.topics;
+      });
+
     $scope.activeItem = null;
-
-    $scope.members = [
-      {name: 'Bill'},
-      {name: 'Bob'},
-      {name: 'Sarah'},
-      {name: 'Shelly'},
-      {name: 'Dexter'},
-      {name: 'Dracula'},
-      {name: 'Pat'}
-    ];
-
-    $scope.agendaTopics = [
-      {
-        title: 'Follow-ups',
-        items: [{title: 'Setup meetings'}]
-      },
-      {
-        title: 'New Items',
-        items: [
-          {title: 'Save the world'},
-          {title: 'Work on project'},
-          {title: 'Solve the problem'}
-        ]
-      }
-    ];
 
     $scope.setActiveItem = function (item) {
       $scope.activeItem = item;
