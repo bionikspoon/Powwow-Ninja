@@ -1,5 +1,5 @@
 <span class="btn-group btn-group-xs pull-right" role="group">
-   <button class="btn btn-default" role="button">
+   <button class="btn btn-default" role="button" ng-disabled="hasOpenAssignment()">
       <span class="glyphicon glyphicon-ok"></span>
    </button>
    <!-- /.btn btn-default -->
@@ -20,7 +20,14 @@
 
 <ul ng-show="item.assignments.length">
    <li ng-repeat="assignment in item.assignments">
-      {{ assignment.title }} {{ assignment.owner }}
+      {{ assignment.title }} {{ assignment.owner.name }}
+      <button class="btn btn-default btn-xs">
+        <span class="glyphicon glyphicon-ok" ng-click="completeAssignment(assignment)"></span>
+      </button>
+      <button class="btn btn-default btn-xs">
+        <span class="glyphicon glyphicon-remove"></span>
+      </button>
+
    </li>
 </ul>
 
@@ -31,7 +38,10 @@
       <input type="text" ng-model="newAssignment.title" class="form-control" />
    </div>
    <div class="form-group">
-      <input type="text" ng-model="newAssignment.owner" class="form-control" />
+      <select ng-model="newAssignment.owner"
+         class="form-control"
+         ng-options="member.name for member in members"></select>
+      <!--<input type="text" ng-model="newAssignment.owner" class="form-control" />-->
    </div>
    <!-- /.form-group -->
    <button class="btn btn-default" type="submit">Add</button>

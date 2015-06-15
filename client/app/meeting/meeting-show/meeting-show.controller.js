@@ -2,7 +2,7 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingShowCtrl', function ($scope) {
+  .controller('MeetingShowCtrl', function ($scope, $log) {
     $scope.activeItem = null;
 
     $scope.members = [
