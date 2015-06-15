@@ -2,6 +2,8 @@
  * contenteditable.scss
  */
 
-[contenteditable]:focus{
-  outline: 0;
+[contenteditable] {
+  &:focus {
+    outline: 0;
+  }
 }

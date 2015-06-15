@@ -18,9 +18,9 @@ angular.module('PowwowNinjaApp')
              $scope.item.assignments.some(function (assignment) {
                //noinspection OverlyComplexBooleanExpressionJS
                return (assignment.hasOwnProperty('opened') &&
-                        assignment.opened) &&
+                      assignment.opened) &&
                       !(assignment.hasOwnProperty('closed') &&
-                       assignment.closed);
+                      assignment.closed);
 
              });
     };
@@ -38,5 +38,9 @@ angular.module('PowwowNinjaApp')
       $scope.newAssignment.opened = Date.now();
       $scope.item.assignments.push($scope.newAssignment);
       $scope.newAssignment = {};
-    }
+    };
+
+    $scope.saveNotes = function () {
+
+    };
   });

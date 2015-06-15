@@ -10,14 +10,15 @@
       </section>
       <!-- /.list-group col-sm-3 -->
 
-      <section class="col-sm-6">
+      <section class="col-sm-7">
          <h2>Agenda</h2>
 
          <meeting-items-group active-item='activeItem'
             ng-repeat="topic in topics"
             items="topic.items"
-            show-title="agendaTopics.length > 1"
+            show-title="topics.length > 1"
             set-active-item="setActiveItem">
+
             {{ topic.title }}
          </meeting-items-group>
 
