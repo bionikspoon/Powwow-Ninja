@@ -31,7 +31,8 @@ exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
     .populate('members')//
-    .select('members').exec(function (err, meeting) {
+    .select('members')//
+    .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
       var member = meeting.members.addToSet(req.body)[0];
@@ -49,6 +50,7 @@ exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
     .populate('members')//
+    .select('members')//
     .exec(function (err, meeting) {
       var member = meeting.members.id(req.params.member);
       if (err) { return handleError(res, err); }
