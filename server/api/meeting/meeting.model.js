@@ -13,21 +13,16 @@ var MeetingSchema = new Schema({
   topics: [
     {
       title: String,
-      items: [
-        {
-          title: String,
-          notes: String,
-          assignments: [],
-          status: String
-        }
-      ],
       heading: {
         type: String,
         enum: [
           'Follow-ups',
           'New Items'
         ]
-      }
+      },
+      notes: String,
+      status: String,
+      assignments: []
     }
   ]
 });

@@ -41,6 +41,7 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.saveNotes = function () {
+
       $scope.item.save();
     };
   });

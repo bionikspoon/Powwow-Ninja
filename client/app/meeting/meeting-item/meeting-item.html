@@ -51,7 +51,7 @@
 
 <form role="form" name="itemNotesForm" ng-submit="saveNotes()">
    <div class="form-group">
-      <textarea ng-bind="item.notes"
+      <textarea ng-model="item.notes"
          class="form-control resize-height"
          required></textarea>
    </div>

@@ -27,7 +27,6 @@ exports.index = function (req, res) {
 
 // Creates a new member in the DB.
 exports.create = function (req, res) {
-  console.log('member.controller    ', 'req.body: ', req.body);
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
     .populate('members')//
@@ -55,9 +54,9 @@ exports.update = function (req, res) {
       var member = meeting.members.id(req.params.member);
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-      member = _.merge(member, req.body);
-      meeting.save(function (err, obj) {
-        console.log('member.controller    ', 'obj: ', obj);
+      _.merge(member, req.body);
+      meeting.save(function (err) {
+        console.log('member.controller    ', 'obj: ');
         if (err) { return handleError(res, err); }
         return res.json(200, meeting);
       });

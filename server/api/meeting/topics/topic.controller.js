@@ -33,19 +33,23 @@ exports.index = function (req, res) {
 //  });
 //};
 
-// Updates an existing meeting in the DB.
-//exports.update = function (req, res) {
-//  if (req.body._id) { delete req.body._id; }
-//  Meeting.findById(req.params.id, function (err, meeting) {
-//    if (err) { return handleError(res, err); }
-//    if (!meeting) { return res.send(404); }
-//    var updated = _.merge(meeting, req.body);
-//    updated.save(function (err) {
-//      if (err) { return handleError(res, err); }
-//      return res.json(200, meeting);
-//    });
-//  });
-//};
+// Updates an existing meeting item in the DB.
+exports.update = function (req, res) {
+  if (req.body._id) { delete req.body._id; }
+  Meeting.findById(req.params.id)//
+    .populate('topics')//
+    .select('topics')//
+    .exec(function (err, meeting) {
+      var topic = meeting.topics.id(req.params.topic);
+      if (err) { return handleError(res, err); }
+      if (!meeting) { return res.send(404); }
+      _.merge(topic, req.body);
+      meeting.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, meeting);
+      });
+    });
+};
 
 // Deletes a meeting from the DB.
 //exports.destroy = function (req, res) {
