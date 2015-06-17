@@ -29,6 +29,20 @@
         font-weight: 300;
       }
     }
+    .lead {
+      margin: 0 auto 30px;
+      font-size: 24px;
+      color: #fff;
+
+    }
+  }
+  @media (min-width: 992px) {
+    header {
+      .lead {
+        width: 80%;
+        font-size: 30px;
+      }
+    }
   }
   @media(min-width: 768px) {
     header {
@@ -43,6 +57,9 @@
         .skills {
           font-size: 1.75em;
         }
+      }
+      .lead {
+
       }
     }
   }

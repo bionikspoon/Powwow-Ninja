@@ -4,19 +4,15 @@ angular.module('PowwowNinjaApp')
 
   .controller('NavbarCtrl',
   function ($scope, $location, Auth, Restangular, $log) {
-    var meetings = Restangular.all('api/meetings');
+    var meetings = Restangular.all('meetings');
     meetings.getList()//
       .then(function (meetingsList) {
         $scope.meetingsList = meetingsList;
       });
     $scope.menu = [
       {
-        'title': 'Home',
-        'link': 'home'
-      },
-      {
-        title: 'Meeting',
-        link: 'meeting.show({id: "557a1a2adbd455a82cef93f1"})'
+        title: 'Dashboard',
+        link: 'dashboard'
       },
       {
         title: 'Meeting',

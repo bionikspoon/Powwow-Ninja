@@ -7,7 +7,8 @@ angular.module('PowwowNinjaApp')
       templateUrl: 'app/meeting/meeting-members/meeting-members.html',
       restrict: 'E',
       scope: {
-        members: '='
+        members: '=',
+        addMember: '='
       },
       controller: 'MeetingMembersCtrl'
     };

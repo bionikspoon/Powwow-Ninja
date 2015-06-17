@@ -22,6 +22,11 @@ angular.module('PowwowNinjaApp', [
     $urlMatcherFactoryProvider.strictMode(false);
   })
 
+  .config(function (RestangularProvider) {
+    RestangularProvider.setBaseUrl('api');
+    RestangularProvider.setRestangularFields({id: '_id'});
+  })
+
   .factory('authInterceptor',
   function ($rootScope, $q, $cookieStore, $location) {
     return {

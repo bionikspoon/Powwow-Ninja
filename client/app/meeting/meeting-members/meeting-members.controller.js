@@ -25,5 +25,10 @@ angular.module('PowwowNinjaApp')
 
     $scope.toggleAddMemberForm = function () {
       $scope.showAddMemberForm = !$scope.showAddMemberForm;
+    };
+
+    $scope._addMember = function () {
+      $scope.addMember({name: $scope.newMember.name});
+      $scope.newMember = {};
     }
   });
