@@ -31,15 +31,14 @@ exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
     .populate('members')//
-    .exec(function (err, meeting) {
+    .select('members').exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-
-      meeting.members.push(req.body);
+      var member = meeting.members.addToSet(req.body)[0];
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, meeting.members);
+        return res.json(200, member);
       });
     });
 };

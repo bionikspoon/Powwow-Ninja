@@ -2,21 +2,9 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingMembersCtrl',
-  function ($scope, $log, $stateParams, Restangular) {
+  .controller('MeetingMembersCtrl', function ($scope, $log, Meeting) {
 
-    var members = Restangular.one('meetings',
-      $stateParams.id).getList('members');
-
-    $scope.members = members.$object;
-
-    members//
-      .then(function (members) {
-        $log.debug('meeting-members.controller  ', 'members: ', members);
-      })//
-      .catch(function (error) {
-        $log.error('meeting-members.controller  ', 'error: ', error);
-      });
+    $scope.members = Meeting.membersList().$object;
 
     var now = function () {
       var date = new Date();
@@ -54,11 +42,11 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.addMember = function () {
-      $scope.members.push({name: $scope.newMember.name});
-      members.post({name: $scope.newMember.name})//
-        .then(function (members) {
-          $log.debug('meeting-members.controller  ', 'members: ', members);
-          $scope.members = members;
+      //$scope.members.push({name: $scope.newMember.name});
+      $scope.members.post({name: $scope.newMember.name})//
+        .then(function (member) {
+          $log.debug('meeting-members.controller  ', 'member: ', member);
+          $scope.members.push(member);
         })//
         .catch(function (error) {
           $log.error('meeting-members.controller  ', 'error: ', error);

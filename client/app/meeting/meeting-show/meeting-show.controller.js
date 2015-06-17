@@ -2,9 +2,8 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingShowCtrl',
-  function ($scope, $log, $stateParams, Restangular) {
-    $scope.meeting = Restangular.one('meetings', $stateParams.id).get().$object;
+  .controller('MeetingShowCtrl', function ($scope, $log, Meeting) {
+    $scope.meeting = Meeting.get().$object;
 
     $scope.activeItem = null;
 
