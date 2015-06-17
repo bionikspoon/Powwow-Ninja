@@ -3,7 +3,8 @@
 angular.module('PowwowNinjaApp')
 
   .controller('MeetingShowCtrl', function ($scope, $log, Meeting) {
-    $scope.meeting = Meeting.get().$object;
+
+    $scope.topics = Meeting.topicsList().$object;
 
     $scope.activeItem = null;
 

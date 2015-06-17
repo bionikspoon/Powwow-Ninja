@@ -63,17 +63,22 @@ Meeting.find({}).remove(function (error) {
   meeting.members = _.uniq(members);
   meeting.topics = [
     {
-      title: 'Follow-ups',
-      items: [{title: 'Setup meetings'}]
+      title: 'Setup meetings',
+      heading: 'Follow-ups'
     },
     {
-      title: 'New Items',
-      items: [
-        {title: 'Save the world'},
-        {title: 'Work on project'},
-        {title: 'Solve the problem'}
-      ]
+      title: 'Save the world',
+      heading: 'New Items'
+    },
+    {
+      title: 'Work on project',
+      heading: 'New Items'
+    },
+    {
+      title: 'Solve the problem',
+      heading: 'New Items'
     }
+
   ];
 
   meeting.save(function (error) {

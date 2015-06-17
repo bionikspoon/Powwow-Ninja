@@ -2,7 +2,7 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingItemCtrl', function ($scope, $log) {
+  .controller('MeetingItemCtrl', function ($scope, $log, Meeting) {
     $scope.members = [
       {name: 'Bill'},
       {name: 'Bob'},
@@ -41,6 +41,6 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.saveNotes = function () {
-
+      $scope.item.save();
     };
   });

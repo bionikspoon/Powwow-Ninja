@@ -13,10 +13,6 @@ angular.module('PowwowNinjaApp')
 
     Restangular.addElementTransformer('members', convertToDate('checkin'));
     Restangular.addElementTransformer('members', convertToDate('checkout'));
-    Restangular.addElementTransformer('members', true, function (element) {
-      console.log('Meeting.service    ', 'element: ', element);
-      return element;
-    });
 
     var meeting = {};
 
@@ -26,6 +22,10 @@ angular.module('PowwowNinjaApp')
 
     meeting.membersList = function () {
       return Restangular.one('meetings', $stateParams.id).getList('members');
+    };
+
+    meeting.topicsList = function () {
+      return Restangular.one('meetings', $stateParams.id).getList('topics');
     };
 
     return meeting;

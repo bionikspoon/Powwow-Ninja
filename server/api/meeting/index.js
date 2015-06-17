@@ -2,7 +2,8 @@
 
 var express = require('express');
 var controller = require('./meeting.controller');
-var member = require('./member/member.controller.js');
+var member = require('./members/member.controller');
+var topic = require('./topics/topic.controller');
 
 var router = express.Router();
 
@@ -23,4 +24,13 @@ router.put('/:id/members/:member', member.update);
 router.patch('/:id/members/:member', member.update);
 //router.delete('/:id/members/:member', member.destroy);
 
+/**
+ * Topics
+ **/
+router.get('/:id/topics', topic.index);
+//router.get('/:id/topics/:topic', topic.show);
+//router.post('/:id/topics', topic.create);
+//router.put('/:id/topics/:topic', topic.update);
+//router.patch('/:id/topics/:topic', topic.update);
+//router.delete('/:id/topics/:topic', topic.destroy);
 module.exports = router;

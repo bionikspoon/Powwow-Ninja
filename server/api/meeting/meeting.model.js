@@ -20,7 +20,14 @@ var MeetingSchema = new Schema({
           assignments: [],
           status: String
         }
-      ]
+      ],
+      heading: {
+        type: String,
+        enum: [
+          'Follow-ups',
+          'New Items'
+        ]
+      }
     }
   ]
 });
