@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Meeting = require('./meeting.model');
+var Meeting = require('./../meeting.model.js');
 
 //// Get list of meetings
 //exports.index = function (req, res) {
@@ -22,7 +22,7 @@ var Meeting = require('./meeting.model');
 //    });
 //};
 
-// Creates a new meeting in the DB.
+// Creates a new member in the DB.
 exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id, function (err, meeting) {
@@ -33,7 +33,7 @@ exports.create = function (req, res) {
 
     meeting.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, meeting);
+      return res.json(200, meeting.members);
     });
   });
 };

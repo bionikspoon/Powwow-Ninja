@@ -56,7 +56,7 @@ Meeting.find({}).remove(function (error) {
 
   var meeting = new Meeting({_id: '5580e935cc779b683340e6bd'});
   var members = [];
-  _.times(20, function () {
+  _.times(10, function () {
     members.push({name: faker.name.findName()});
   });
 

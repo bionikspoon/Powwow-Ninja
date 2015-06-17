@@ -2,8 +2,10 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingMembersCtrl', function ($scope) {
+  .controller('MeetingMembersCtrl',
+  function ($scope, $log, $stateParams, Restangular) {
 
+    var members = Restangular.one('meetings', $stateParams.id).all('members');
     var now = function () {
       var date = new Date();
       date.setSeconds(0);
@@ -27,8 +29,17 @@ angular.module('PowwowNinjaApp')
       $scope.showAddMemberForm = !$scope.showAddMemberForm;
     };
 
-    $scope._addMember = function () {
-      $scope.addMember({name: $scope.newMember.name});
+    $scope.addMember = function () {
+      $scope.members.push({name: $scope.newMember.name});
+      members.post({name: $scope.newMember.name})//
+        .then(function (members) {
+          $log.debug('meeting-members.controller  ', 'members: ', members);
+          $scope.members = members;
+        })//
+        .catch(function (error) {
+          $log.error('meeting-members.controller  ', 'error: ', error);
+        });
+
       $scope.newMember = {};
     }
   });

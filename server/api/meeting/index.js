@@ -2,7 +2,7 @@
 
 var express = require('express');
 var controller = require('./meeting.controller');
-var member = require('./meeting.member.controller.js');
+var member = require('./member/member.controller.js');
 
 var router = express.Router();
 

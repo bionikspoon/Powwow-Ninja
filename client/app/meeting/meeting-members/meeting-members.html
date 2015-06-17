@@ -1,7 +1,5 @@
 <div class="list-group">
-   <h2>
-      <small>Members</small>
-   </h2>
+   <p class="lead text-muted">Members</p>
    <a href
       class="list-group-item"
       ng-repeat="member in members | orderBy: 'name'"
@@ -66,24 +64,20 @@
    </a>
    <!-- /.list-group-item -->
 </div><!-- /.list-group -->
-<div>
-   <h2>
-      <small>
-         Add Member
-      </small>
-      <button class="btn btn-xs pull-right"
-         ng-click="toggleAddMemberForm()"
-         ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">
-         <span class="glyphicon"
-            ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>
-      </button>
-      <!-- /.btn btn-success btn-xs -->
-   </h2>
-   <div class="well" ng-show="showAddMemberForm">
-      <form name="newMemberForm" ng-submit="_addMember()">
-         <input type="text" ng-model="newMember.name" placeholder="Name" />
-      </form>
-   </div>
-   <!-- /.well -->
+<div class="well add-member">
+   <button class="btn btn-xs pull-right"
+      ng-click="toggleAddMemberForm()"
+      ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">
+      <span class="glyphicon"
+         ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>
+   </button>
+   <p class="lead text-muted">
+      Add Member<!-- /.btn btn-success btn-xs -->
+   </p>
 
-</div>
+   <form name="newMemberForm"
+      ng-submit="addMember()"
+      ng-show="showAddMemberForm">
+      <input type="text" ng-model="newMember.name" placeholder="Name" class="form-control add-member-form-input" />
+   </form>
+</div><!-- /.well -->
