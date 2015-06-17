@@ -14,7 +14,6 @@ exports.index = function (req, res) {
 // Get a single meeting
 exports.show = function (req, res) {
   Meeting.findById(req.params.id)//
-    .populate('members')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
