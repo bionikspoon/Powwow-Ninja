@@ -2,26 +2,26 @@
 
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
 
+var AttendanceSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  checkin: {
+    type: Date,
+    default: Date.now
+  },
+  checkout: Date,
+  rsvp: {
+    date: Date,
+    attending: Boolean
+  }
+});
+
 var MeetingSchema = new Schema({
-  members: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
-  topics: [
-    {
-      title: String,
-      items: [
-        {
-          title: String,
-          notes: String,
-          assignments: [],
-          status: String
-        }
-      ]
-    }
-  ]
+  date: Date,
+  location: String,
+  attendance: [AttendanceSchema]
 });
 
 module.exports = mongoose.model('Meeting', MeetingSchema);

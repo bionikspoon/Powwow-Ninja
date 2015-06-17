@@ -66,3 +66,22 @@
    </a>
    <!-- /.list-group-item -->
 </div><!-- /.list-group -->
+<div>
+   <h2>
+      <small>
+         Add Member
+      </small>
+      <button class="btn btn-xs pull-right"
+         ng-click="toggleAddMemberForm()"
+         ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">
+         <span class="glyphicon"
+            ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>
+      </button>
+      <!-- /.btn btn-success btn-xs -->
+   </h2>
+   <div class="well" ng-show="showAddMemberForm">
+      <form><input type="text" /></form>
+   </div>
+   <!-- /.well -->
+
+</div>
