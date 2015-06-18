@@ -16,6 +16,10 @@ angular.module('PowwowNinjaApp')
 
     var meeting = {};
 
+    meeting.getAllList = function () {
+      return Restangular.all('meetings').getList();
+    };
+
     meeting.get = function () {
       return Restangular.one('meetings', $stateParams.id).get();
     };

@@ -2,10 +2,8 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('NavbarCtrl',
-  function ($scope, $location, Auth, Restangular, $log) {
-    var meetings = Restangular.all('meetings');
-    meetings.getList()//
+  .controller('NavbarCtrl', function ($scope, $location, Auth, Meeting) {
+    Meeting.getAllList()//
       .then(function (meetingsList) {
         $scope.meetingsList = meetingsList;
       });
