@@ -6,18 +6,18 @@ var Meeting = require('./../meeting.model.js');
 // Get list of meetings
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
-    .populate('topics')//
-    .select('topics')//
+    .populate('items')//
+    .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      return res.json(200, meeting.topics);
+      return res.json(200, meeting.items);
     });
 };
 
 // Get a single meeting
 //exports.show = function (req, res) {
 //  Meeting.findById(req.params.id)//
-//    .select('topics')//
+//    .select('items')//
 //    .exec(function (err, meeting) {
 //      if (err) { return handleError(res, err); }
 //      if (!meeting) { return res.send(404); }
@@ -37,13 +37,13 @@ exports.index = function (req, res) {
 exports.update = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
-    .populate('topics')//
-    .select('topics')//
+    .populate('items')//
+    .select('items')//
     .exec(function (err, meeting) {
-      var topic = meeting.topics.id(req.params.topic);
+      var item = meeting.items.id(req.params.item);
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-      _.merge(topic, req.body);
+      _.merge(item, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
         return res.json(200, meeting);

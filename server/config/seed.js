@@ -61,7 +61,7 @@ Meeting.find({}).remove(function (error) {
   });
 
   meeting.members = _.uniq(members);
-  meeting.topics = [
+  meeting.items = [
     {
       title: 'Setup meetings',
       section: 'Follow-ups'

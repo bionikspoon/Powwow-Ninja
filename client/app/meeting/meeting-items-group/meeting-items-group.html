@@ -1,6 +1,7 @@
 <h3 ng-if="showTitle">
-   <pre ng-transclude></pre>
+   <small ng-transclude></small>
 </h3>
+<pre ng-transclude></pre>
 <div class="list-group">
    <meeting-item ng-repeat="item in items"
       ng-click="setActiveItem(item)"

@@ -10,7 +10,7 @@ var MeetingSchema = new Schema({
       checkout: Date
     }
   ],
-  topics: [
+  items: [
     {
       title: String,
       section: {
