@@ -17,14 +17,36 @@
 
             <meeting-item ng-repeat="item in section.items"
                ng-click="setActiveItem(item)"
-               class="list-group-item focus-outline-off"
+               class="list-group-item"
                ng-class="{'list-group-item-info':activeItem === item}"
                item="item"
                active-item="activeItem === item"></meeting-item>
          </meeting-items-section>
 
+         <div class="well">
+            <p class="lead text-muted">Add Item</p>
+
+            <form name="newItemForm" ng-submit="addItem()" novalidate>
+               <div class="input-group input-group-lg">
+                  <input type="text"
+                     ng-model="newItem.title"
+                     placeholder="Add Item"
+                     class="form-control"
+                     required />
+
+                  <span class="input-group-btn">
+                     <button type="submit"
+                        class="btn btn-success"
+                        ng-disabled="newItemForm.$invalid">
+                        <span class="glyphicon glyphicon-plus"></span>
+                     </button>
+                  </span>
+               </div>
+            </form>
+         </div>
+         <!-- /.well -->
+
       </section>
-      <!-- /.col-sm-8 col-lg-7 -->
 
    </div>
    <!-- /.row -->

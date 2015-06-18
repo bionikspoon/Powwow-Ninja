@@ -29,7 +29,7 @@ router.patch('/:id/members/:member', member.update);
  **/
 router.get('/:id/items', item.index);
 //router.get('/:id/items/:item', item.show);
-//router.post('/:id/items', item.create);
+router.post('/:id/items', item.create);
 router.put('/:id/items/:item', item.update);
 router.patch('/:id/items/:item', item.update);
 //router.delete('/:id/items/:item', item.destroy);

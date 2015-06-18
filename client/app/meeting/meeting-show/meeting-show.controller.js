@@ -12,4 +12,11 @@ angular.module('PowwowNinjaApp')
       $scope.activeItem = item;
     };
 
+    $scope.addItem = function () {
+      var item = $scope.newItem;
+      $scope.newItem = {};
+      item = Meeting.addItem(item).$object;
+      $log.debug('meeting-show.controller  ', 'item: ', item);
+    }
+
   });

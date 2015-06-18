@@ -49,5 +49,9 @@ angular.module('PowwowNinjaApp')
       return Restangular.one('meetings', $stateParams.id).getList('items');
     };
 
+    meeting.addItem = function (item) {
+      return Restangular.one('meetings', $stateParams.id).all('items').post(item);
+    };
+
     return meeting;
   });

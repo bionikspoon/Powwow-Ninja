@@ -37,8 +37,7 @@
 
          <div class="input-group input-group-sm checkin-checkout">
             <span class="input-group-btn">
-               <button class="btn btn-default"
-                  ng-click="resetCheckin(member)">
+               <button class="btn btn-default" ng-click="resetCheckin(member)">
                   &times;
                </button>
             </span> <input type="time"
@@ -48,8 +47,7 @@
          <!-- /.input-group input-group-sm -->
          <div class="input-group input-group-sm checkin-checkout">
             <span class="input-group-btn">
-               <button class="btn btn-default"
-                  ng-click="resetCheckout(member)">
+               <button class="btn btn-default" ng-click="resetCheckout(member)">
                   &times;
                </button>
             </span> <input type="time"
@@ -65,22 +63,33 @@
    <!-- /.list-group-item -->
 </div><!-- /.list-group -->
 <div class="well add-member">
-   <button class="btn btn-xs pull-right"
-      ng-click="toggleAddMemberForm()"
-      ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">
-      <span class="glyphicon"
-         ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>
-   </button>
+   <!--<button class="btn btn-xs pull-right"-->
+   <!--ng-click="toggleAddMemberForm()"-->
+   <!--ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">-->
+   <!--<span class="glyphicon"-->
+   <!--ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>-->
+   <!--</button>-->
    <p class="lead text-muted">
       Add Member<!-- /.btn btn-success btn-xs -->
    </p>
 
    <form name="newMemberForm"
       ng-submit="addMember()"
-      ng-show="showAddMemberForm">
-      <input type="text"
-         ng-model="newMember.name"
-         placeholder="Name"
-         class="form-control add-member-form-input" />
+      class="form-inline"
+      novalidate>
+      <div class="input-group">
+         <input type="text"
+            ng-model="newMember.name"
+            placeholder="Add Member"
+            class="form-control"
+            required /> <span class="input-group-btn">
+         <button type="submit"
+            class="btn btn-success"
+            ng-disabled="newMemberForm.$invalid">
+            <span class="glyphicon glyphicon-plus"></span>
+         </button>
+
+      </span>
+      </div>
    </form>
 </div><!-- /.well -->

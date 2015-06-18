@@ -26,12 +26,25 @@ exports.index = function (req, res) {
 //};
 
 // Creates a new meeting in the DB.
-//exports.create = function (req, res) {
-//  Meeting.create(req.body, function (err, meeting) {
-//    if (err) { return handleError(res, err); }
-//    return res.json(201, meeting);
-//  });
-//};
+exports.create = function (req, res) {
+  if (req.body._id) { delete req.body._id; }
+  Meeting.findById(req.params.id)//
+    .populate('items')//
+    .select('items')//
+    .exec(function (err, meeting) {
+      if (err) { return handleError(res, err); }
+      if (!meeting) { return res.send(404); }
+      var item = req.body;
+      item.section = 'New Items';
+      item = meeting.items.addToSet(req.body)[0];
+
+      meeting.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(201, item);
+
+      });
+    });
+};
 
 // Updates an existing meeting item in the DB.
 exports.update = function (req, res) {
