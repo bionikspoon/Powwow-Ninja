@@ -3,10 +3,8 @@
  */
 
 meeting-items-section {
-  .focus-outline-off {
-    &:focus {
-      outline: none;
-    }
+  &:focus {
+    outline: none;
   }
 }
 

@@ -1,12 +1,3 @@
-<h3 ng-if="showTitle">
-   <small>{{ title }}</small>
-</h3>
-<div class="list-group">
-   <meeting-item ng-repeat="item in items"
-      ng-click="setActiveItem(item)"
-      class="list-group-item focus-outline-off"
-      ng-class="{'list-group-item-info':activeItem === item}"
-      item="item"
-      active-item="activeItem === item"></meeting-item>
-</div>
+<p ng-if="showTitle" class="lead text-muted">{{ title }}</p>
+<div class="list-group" ng-transclude></div>
 <form class="well" ng-if="$last"><input type="text" /></form>

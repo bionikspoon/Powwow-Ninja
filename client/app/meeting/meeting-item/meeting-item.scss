@@ -3,11 +3,11 @@
  */
 
 meeting-item {
-  .add-assignment {
-
-  }
   textarea.resize-height {
     resize: vertical;
+  }
+  &:focus {
+    outline: none;
   }
 }
 
