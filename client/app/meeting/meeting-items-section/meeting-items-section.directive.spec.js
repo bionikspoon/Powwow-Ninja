@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: meetingItemsGroup', function () {
+describe('Directive: meetingItemsSection', function () {
 
   // load the directive's module and view
   beforeEach(module('PowwowNinjaApp'));
-  beforeEach(module('app/meeting/meeting-items-group/meeting-items-group.html'));
+  beforeEach(module('app/meeting/meeting-items-section/meeting-items-section.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: meetingItemsGroup', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<meeting-items-group></meeting-items-group>');
+    element = angular.element('<meeting-items-section></meeting-items-section>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).toBe('this is the meetingItemsGroup directive');
+    expect(element.text()).toBe('this is the meetingItemsSection directive');
   }));
 });

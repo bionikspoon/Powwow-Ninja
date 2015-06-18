@@ -2,9 +2,9 @@
 
 angular.module('PowwowNinjaApp')
 
-  .directive('meetingItemsGroup', function () {
+  .directive('meetingItemsSection', function () {
     return {
-      templateUrl: 'app/meeting/meeting-items-group/meeting-items-group.html',
+      templateUrl: 'app/meeting/meeting-items-section/meeting-items-section.html',
       restrict: 'E',
       transclude: true,
       scope: {

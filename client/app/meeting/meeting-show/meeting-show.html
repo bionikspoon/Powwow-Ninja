@@ -11,13 +11,14 @@
       <!-- /.col-sm-4 col-lg-3 -->
 
       <section class="col-sm-8 col-lg-7">
-         <meeting-items-group active-item='activeItem'
+         <meeting-items-section active-item='activeItem'
             ng-repeat="section in sections"
             items="section.items"
             show-title="true"
             set-active-item="setActiveItem"
             title="section.title">
-         </meeting-items-group>
+
+         </meeting-items-section>
 
       </section>
       <!-- /.col-sm-8 col-lg-7 -->
