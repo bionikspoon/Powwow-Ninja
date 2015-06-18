@@ -56,7 +56,6 @@ exports.update = function (req, res) {
       if (!meeting) { return res.send(404); }
       _.merge(member, req.body);
       meeting.save(function (err) {
-        console.log('member.controller    ', 'obj: ');
         if (err) { return handleError(res, err); }
         return res.json(200, meeting);
       });

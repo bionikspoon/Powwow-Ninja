@@ -44,4 +44,9 @@ angular.module('PowwowNinjaApp')
 
       $scope.item.save();
     };
+
+    $scope.saveItem = function () {
+
+      $scope.item.save();
+    };
   });
