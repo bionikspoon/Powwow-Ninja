@@ -11,7 +11,8 @@ angular.module('PowwowNinjaApp')
         items: '=',
         showTitle: '=',
         activeItem: '=',
-        setActiveItem: '='
+        setActiveItem: '=',
+        title: '='
       }
     };
   });
