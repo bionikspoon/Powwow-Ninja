@@ -64,19 +64,19 @@ Meeting.find({}).remove(function (error) {
   meeting.topics = [
     {
       title: 'Setup meetings',
-      heading: 'Follow-ups'
+      section: 'Follow-ups'
     },
     {
       title: 'Save the world',
-      heading: 'New Items'
+      section: 'New Items'
     },
     {
       title: 'Work on project',
-      heading: 'New Items'
+      section: 'New Items'
     },
     {
       title: 'Solve the problem',
-      heading: 'New Items'
+      section: 'New Items'
     }
 
   ];

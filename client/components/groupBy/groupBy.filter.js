@@ -2,18 +2,14 @@
 
 angular.module('PowwowNinjaApp')
 
-  .filter('groupBy', function () {
-    return function (array, groupBy) {
-      return _.chain(array)//
+  .filter('groupBy', function ($log) {
+    return function (items, groupBy) {
+      items = _(items)//
         .groupBy(function (item) {
-          return item[groupBy];
-        })//
-        .pairs()//
-        .map(function (item) {
-          var obj = item[1];
-          obj[groupBy] = item[0];
-          return item[1];
+          return item[groupBy]
         })//
         .value();
+      $log.debug('groupBy.filter  ', 'items: ', items);
+      return items;
     };
   });

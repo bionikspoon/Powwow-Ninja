@@ -13,7 +13,7 @@ var MeetingSchema = new Schema({
   topics: [
     {
       title: String,
-      heading: {
+      section: {
         type: String,
         enum: [
           'Follow-ups',
