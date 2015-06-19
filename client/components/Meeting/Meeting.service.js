@@ -5,31 +5,12 @@ var convertToDate = _.curry(function (field, element) {
   return element;
 });
 
-var groupMeetingItems = function (data, operation, what) {
-  if (what === 'items') {
-    data = _(data)//
-      .groupBy(function (item) {
-        return item.section;
-      })//
-      .pairs()//
-      .map(function (item) {
-        return {
-          title: item[0],
-          items: item[1]
-        };
-      })//
-      .value();
-  }
-  return data;
-};
-
 angular.module('PowwowNinjaApp')
 
   .factory('Meeting', function ($stateParams, Restangular) {
 
     Restangular.addElementTransformer('members', convertToDate('checkin'));
     Restangular.addElementTransformer('members', convertToDate('checkout'));
-    Restangular.addResponseInterceptor(groupMeetingItems);
 
     var meeting = {};
 
@@ -50,7 +31,8 @@ angular.module('PowwowNinjaApp')
     };
 
     meeting.addItem = function (item) {
-      return Restangular.one('meetings', $stateParams.id).all('items').post(item);
+      return Restangular.one('meetings',
+        $stateParams.id).all('items').post(item);
     };
 
     return meeting;

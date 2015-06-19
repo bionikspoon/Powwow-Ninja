@@ -15,8 +15,15 @@ angular.module('PowwowNinjaApp')
     $scope.addItem = function () {
       var item = $scope.newItem;
       $scope.newItem = {};
-      item = Meeting.addItem(item).$object;
-      $log.debug('meeting-show.controller  ', 'item: ', item);
+      $scope.sections.post(item)//
+        .then(function (item) {
+          $log.debug('meeting-show.controller  ', 'item: ', item);
+          $scope.sections.push(item)
+        })//
+        .catch(function (error) {
+          $log.error('meeting-show.controller  ', 'error: ', error);
+        });
+
     }
 
   });

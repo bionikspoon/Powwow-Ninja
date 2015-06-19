@@ -38,7 +38,7 @@ exports.create = function (req, res) {
       item.section = 'New Items';
       item = meeting.items.addToSet(req.body)[0];
 
-      meeting.save(function (err) {
+      item.save(function (err) {
         if (err) { return handleError(res, err); }
         return res.json(201, item);
 

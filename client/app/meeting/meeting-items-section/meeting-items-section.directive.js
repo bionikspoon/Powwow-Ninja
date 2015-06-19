@@ -10,7 +10,7 @@ angular.module('PowwowNinjaApp')
         showTitle: '=',
         title: '='
       },
-      template: '<p ng-if="showTitle" class="lead text-muted">{{ title }}</p>' +
+      template: '<p class="lead text-muted">{{ title }}</p>' +
                 '<div class="list-group" ng-transclude></div>'
     };
   });
