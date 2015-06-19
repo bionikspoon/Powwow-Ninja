@@ -2,11 +2,9 @@
 
 var _ = require('lodash');
 var Meeting = require('./../meeting.model.js');
-
-// Get list of meetings
+// Get list of items
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
-    .populate('items')//
     .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }

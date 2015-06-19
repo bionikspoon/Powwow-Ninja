@@ -3,7 +3,8 @@
 var express = require('express');
 var controller = require('./meeting.controller');
 var member = require('./members/member.controller');
-var item = require('./items/item.controller.js');
+var item = require('./items/item.controller');
+var assignment = require('./items/assignments/assignment.controller');
 
 var router = express.Router();
 
@@ -15,7 +16,7 @@ router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
 /**
- * Members
+ * Meeting.Members
  **/
 router.get('/:id/members', member.index);
 //router.get('/:id/members/:member', member.show);
@@ -25,7 +26,7 @@ router.patch('/:id/members/:member', member.update);
 //router.delete('/:id/members/:member', member.destroy);
 
 /**
- * Topics
+ * Meeting.Topics
  **/
 router.get('/:id/items', item.index);
 //router.get('/:id/items/:item', item.show);
@@ -33,4 +34,14 @@ router.post('/:id/items', item.create);
 router.put('/:id/items/:item', item.update);
 router.patch('/:id/items/:item', item.update);
 //router.delete('/:id/items/:item', item.destroy);
+
+/**
+ * Meeting.Topics.Assignments
+ **/
+//router.get('/:id/items/:item/assignments', assignment.index);
+//router.get('/:id/items/:item/assignments/:assignment', assignment.show);
+router.post('/:id/items/:item/assignments', assignment.create);
+//router.put('/:id/items/:item/assignments/:assignment', assignment.update);
+//router.patch('/:id/items/:item/assignments/:assignment', assignment.update);
+//router.delete('/:id/items/:item/assignments/:assignment', assignment.destroy);
 module.exports = router;

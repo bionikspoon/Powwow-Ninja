@@ -68,7 +68,13 @@ Meeting.find({}).remove(function (error) {
     },
     {
       title: 'Save the world',
-      section: 'New Items'
+      section: 'New Items',
+      assignments: [
+        {
+          owner: _.sample(meeting.members)._id,
+          description: 'Build doomsday device!'
+        }
+      ]
     },
     {
       title: 'Work on project',

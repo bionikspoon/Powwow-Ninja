@@ -9,7 +9,8 @@ angular.module('PowwowNinjaApp')
       controller: 'MeetingItemCtrl',
       scope: {
         item: '=',
-        activeItem: '='
+        activeItem: '=',
+        meeting: '='
       }
     };
   });

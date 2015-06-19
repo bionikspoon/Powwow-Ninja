@@ -2,16 +2,10 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingItemCtrl', function ($scope, $log, Meeting) {
-    $scope.members = [
-      {name: 'Bill'},
-      {name: 'Bob'},
-      {name: 'Sarah'},
-      {name: 'Shelly'},
-      {name: 'Dexter'},
-      {name: 'Dracula'},
-      {name: 'Pat'}
-    ];
+  .controller('MeetingItemCtrl', function ($scope, $log, Restangular) {
+    Restangular.restangularizeCollection($scope.item,
+      $scope.item.assignments,
+      'assignments');
 
     $scope.hasOpenAssignment = function () {
       return $scope.item.hasOwnProperty('assignments') &&
@@ -35,9 +29,27 @@ angular.module('PowwowNinjaApp')
     if (!$scope.item.assignments) { $scope.item.assignments = [];}
 
     $scope.addAssignment = function () {
-      $scope.newAssignment.opened = Date.now();
-      $scope.item.assignments.push($scope.newAssignment);
+      var assignment = $scope.newAssignment;
+      assignment.owner = $scope.newAssignment.owner._id;
+      assignment.opened = Date.now();
       $scope.newAssignment = {};
+
+      var index = $scope.item.assignments.push(assignment);
+      $scope.item.assignments.post(assignment)//
+        .then(function (assignment) {
+          _.merge($scope.item.assignments[index], assignment);
+        })//
+        .catch(function (error) {
+          $log.error('meeting-item.controller  ', 'error: ', error);
+        });
+      //$scope.item.all('assignments').post(assignment)//
+      //  .then(function (assignment) {
+      //    $log.debug('meeting-item.controller  ', 'assignment: ', assignment);
+      //
+      //  })//
+      //  .catch(function (error) {
+      //    $log.error('meeting-item.controller  ', 'error: ', error);
+      //  });
     };
 
     $scope.saveNotes = function () {

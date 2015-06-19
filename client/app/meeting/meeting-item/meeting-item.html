@@ -21,9 +21,10 @@
    contenteditable
    ng-model="item.title"></h4><!-- /.list-group-item-text -->
 
-<ul ng-show="item.assignments.length">
-   <li ng-repeat="assignment in item.assignments">
-      {{ assignment.title }} {{ assignment.owner.name }}
+<ul ng-show="item.assignments.length" class="list-group">
+   <li ng-repeat="assignment in item.assignments" class="list-group-item">
+      Description: {{ assignment.description }}<br /> Owner: {{
+      assignment.owner.name }}<br /> Owner Data: {{ assignment.owner }}
       <button class="btn btn-default btn-xs">
          <span class="glyphicon glyphicon-ok"
             ng-click="completeAssignment(assignment)"></span>
@@ -36,15 +37,17 @@
 </ul>
 
 <form class="form-inline add-assignment"
-   ng-show="promptAssignment && activeItem"
+   ng-show="promptAssignment && activeItem || true"
    ng-submit="addAssignment()">
    <div class="form-group">
-      <input type="text" ng-model="newAssignment.title" class="form-control" />
+      <input type="text"
+         ng-model="newAssignment.description"
+         class="form-control" />
    </div>
    <div class="form-group">
       <select ng-model="newAssignment.owner"
          class="form-control"
-         ng-options="member.name for member in members"></select>
+         ng-options="member.name for member in meeting.members | orderBy: 'name'"></select>
    </div>
    <!-- /.form-group -->
    <button class="btn btn-default" type="submit">Add</button>
