@@ -1,17 +1,13 @@
 'use strict';
 
-var mongoose = require('mongoose'), Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var MemberSchema = new Schema({
-  name: String,
-  checkin: Date,
-  checkout: Date
-});
 
 var AssignmentSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
-    ref: MemberSchema
+    ref: 'Member'
   },
   description: String,
   opened: Date,
@@ -33,7 +29,7 @@ var ItemSchema = new Schema({
 
 
 var MeetingSchema = new Schema({
-  members: [MemberSchema],
+  members: ['Member'],
   items: [ItemSchema]
 });
 

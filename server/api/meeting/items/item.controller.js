@@ -2,12 +2,15 @@
 
 var _ = require('lodash');
 var Meeting = require('./../meeting.model.js');
+
 // Get list of items
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
+    .populate('items.assignments.owner')//
     .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
+      console.log('item.controller  ', 'meeting: ', meeting);
       return res.json(200, meeting.items);
     });
 };

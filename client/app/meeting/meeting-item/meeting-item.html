@@ -23,8 +23,7 @@
 
 <ul ng-show="item.assignments.length" class="list-group">
    <li ng-repeat="assignment in item.assignments" class="list-group-item">
-      Description: {{ assignment.description }}<br /> Owner: {{
-      assignment.owner.name }}<br /> Owner Data: {{ assignment.owner }}
+      {{assignment.owner.name }} - {{ assignment.description }}
       <button class="btn btn-default btn-xs">
          <span class="glyphicon glyphicon-ok"
             ng-click="completeAssignment(assignment)"></span>

@@ -3,13 +3,15 @@
 var _ = require('lodash');
 var Meeting = require('./../meeting.model.js');
 
-//// Get list of meeting members
+// Get list of meeting members
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
     .populate('members')//
     .select('members')//
     .exec(function (err, meeting) {
+      console.log('member.controller  ', 'err: ', err);
       if (err) { return handleError(res, err); }
+      console.log('member.controller  ', 'meeting: ', meeting);
       return res.json(200, meeting.members);
     });
 };
