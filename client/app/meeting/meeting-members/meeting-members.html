@@ -1,8 +1,8 @@
-<div class="list-group">
+<section class="list-group">
    <p class="lead text-muted">Members</p>
    <a href
       class="list-group-item"
-      ng-repeat="member in members | orderBy: 'name'"
+      ng-repeat="member in meeting.members | orderBy: 'name'"
       ng-class="{
                   'list-group-item-success': member.checkin && !member.checkout,
                   'list-group-item-danger': member.checkout
@@ -61,14 +61,9 @@
 
    </a>
    <!-- /.list-group-item -->
-</div><!-- /.list-group -->
-<div class="well add-member">
-   <!--<button class="btn btn-xs pull-right"-->
-   <!--ng-click="toggleAddMemberForm()"-->
-   <!--ng-class="showAddMemberForm ? 'btn-warning' : 'btn-success'">-->
-   <!--<span class="glyphicon"-->
-   <!--ng-class="showAddMemberForm ? 'glyphicon-minus' : 'glyphicon-plus'"></span>-->
-   <!--</button>-->
+</section><!-- /.list-group -->
+<section class="well add-member">
+
    <p class="lead text-muted">
       Add Member<!-- /.btn btn-success btn-xs -->
    </p>
@@ -92,4 +87,4 @@
       </span>
       </div>
    </form>
-</div><!-- /.well -->
+</section><!-- /.well -->

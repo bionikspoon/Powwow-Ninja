@@ -3,8 +3,7 @@
 angular.module('PowwowNinjaApp')
 
   .controller('MeetingMembersCtrl', function ($scope, $log, Meeting) {
-
-    $scope.members = Meeting.membersList().$object;
+    $scope.meeting.members = Meeting.membersList().$object;
 
     var now = function () {
       var date = new Date();
@@ -42,11 +41,10 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.addMember = function () {
-      //$scope.members.push({name: $scope.newMember.name});
-      $scope.members.post({name: $scope.newMember.name})//
+      $scope.meeting.members.post({name: $scope.newMember.name})//
         .then(function (member) {
           $log.debug('meeting-members.controller  ', 'member: ', member);
-          $scope.members.push(member);
+          $scope.meeting.members.push(member);
         })//
         .catch(function (error) {
           $log.error('meeting-members.controller  ', 'error: ', error);

@@ -3,8 +3,9 @@
 angular.module('PowwowNinjaApp')
 
   .controller('MeetingShowCtrl', function ($scope, $log, Meeting) {
+    $scope.meeting = {};
 
-    $scope.sections = Meeting.itemsList().$object;
+    $scope.meeting.itemSections = Meeting.itemsList().$object;
 
     $scope.activeItem = null;
 
@@ -15,10 +16,10 @@ angular.module('PowwowNinjaApp')
     $scope.addItem = function () {
       var item = $scope.newItem;
       $scope.newItem = {};
-      $scope.sections.post(item)//
+      $scope.meeting.sections.post(item)//
         .then(function (item) {
           $log.debug('meeting-show.controller  ', 'item: ', item);
-          $scope.sections.push(item)
+          $scope.meeting.sections.push(item)
         })//
         .catch(function (error) {
           $log.error('meeting-show.controller  ', 'error: ', error);
