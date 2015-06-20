@@ -6,7 +6,7 @@ angular.module('PowwowNinjaApp')
     $stateProvider//
       .state('meeting', {
         url: '/meeting',
-        templateUrl: 'app/meeting/base/meeting.html',
+        templateUrl: 'app/meeting/meeting/meeting.html',
         controller: 'MeetingCtrl',
         abstract: true
       })//

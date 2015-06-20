@@ -12,7 +12,10 @@ var MemberSchema = new Schema({
 var AssignmentSchema = new Schema({
   owner: {name: String},
   description: String,
-  opened: Date,
+  opened: {
+    type: Date,
+    default: Date.now
+  },
   closed: Date
 });
 var ItemSchema = new Schema({

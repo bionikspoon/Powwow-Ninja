@@ -14,22 +14,29 @@ var user = new User({
 describe('User Model', function () {
   before(function (done) {
     // Clear users before testing
-    User.remove().exec().then(function () {
-      done();
-    });
+    User//
+      .remove()//
+      .exec()//
+      .then(function () {
+        done();
+      });
   });
 
   afterEach(function (done) {
-    User.remove().exec().then(function () {
-      done();
-    });
+    User//
+      .remove()//
+      .exec()//
+      .then(function () {
+        done();
+      });
   });
 
   it('should begin with no users', function (done) {
-    User.find({}, function (err, users) {
-      users.should.have.length(0);
-      done();
-    });
+    User//
+      .find({}, function (err, users) {
+        users.should.have.length(0);
+        done();
+      });
   });
 
   it('should fail when saving a duplicate user', function (done) {
@@ -51,10 +58,12 @@ describe('User Model', function () {
   });
 
   it("should authenticate user if password is valid", function () {
-    return user.authenticate('password').should.be.true;
+    return user.authenticate('password')//
+      .should.be.true;
   });
 
   it("should not authenticate user if password is invalid", function () {
-    return user.authenticate('blah').should.not.be.true;
+    return user.authenticate('blah')//
+      .should.not.be.true;
   });
 });
