@@ -7,7 +7,6 @@
 
 var User = require('../api/user/user.model');
 var Meeting = require('../api/meeting/meeting.model');
-var Member = require('../api/meeting/member.model');
 
 var faker = require('faker');
 var _ = require('lodash');
@@ -52,57 +51,44 @@ User.find({}).remove(function () {
   });
 });
 
-Member.find({}).remove(function (error) {
+Meeting.find({}).remove(function (error) {
   if (error) { console.error(error); }
 
-  var members = [];
-  _.times(10, function () {
-    members.push({name: faker.name.findName()});
-  });
-  Member.create(members, function (error) {
-    if (error) { console.error(error); }
-    console.log('finished creating Members');
-    var members = _.rest(arguments);
+  var meeting = new Meeting({_id: '5580e935cc779b683340e6bd'});
 
-    Meeting.find({}).remove(function (error) {
-      if (error) { console.error(error); }
-
-      var meeting = new Meeting({_id: '5580e935cc779b683340e6bd'});
-
-
-      meeting.members = _.uniq(members);
-      meeting.items = [
+  meeting.members = _.uniq(_.times(10, function () {
+    return {name: faker.name.findName()};
+  }));
+  meeting.items = [
+    {
+      title: 'Setup meetings',
+      section: 'Follow-ups'
+    },
+    {
+      title: 'Save the world',
+      section: 'New Items',
+      assignments: [
         {
-          title: 'Setup meetings',
-          section: 'Follow-ups'
-        },
-        {
-          title: 'Save the world',
-          section: 'New Items',
-          assignments: [
-            {
-              owner: _.sample(meeting.members)._id,
-              description: 'Build doomsday device!'
-            }
-          ]
-        },
-        {
-          title: 'Work on project',
-          section: 'New Items'
-        },
-        {
-          title: 'Solve the problem',
-          section: 'New Items'
+          owner: {name: _.sample(meeting.members).name},
+          description: 'Build doomsday device!'
         }
+      ]
+    },
+    {
+      title: 'Work on project',
+      section: 'New Items'
+    },
+    {
+      title: 'Solve the problem',
+      section: 'New Items'
+    }
 
-      ];
+  ];
 
-      meeting.save(function (error) {
-        if (error) { console.error(error); }
-        console.log('finished creating a Meeting');
-      });
+  meeting.save(function (error) {
+    if (error) { console.error(error); }
+    console.log('finished creating a Meeting');
+  });
 
-    });
-  })
 });
 

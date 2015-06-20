@@ -3,12 +3,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var MemberSchema = new Schema({
+  name: String,
+  checkin: Date,
+  checkout: Date
+});
 
 var AssignmentSchema = new Schema({
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'Member'
-  },
+  owner: {name: String},
   description: String,
   opened: Date,
   closed: Date
@@ -29,7 +31,7 @@ var ItemSchema = new Schema({
 
 
 var MeetingSchema = new Schema({
-  members: ['Member'],
+  members: [MemberSchema],
   items: [ItemSchema]
 });
 

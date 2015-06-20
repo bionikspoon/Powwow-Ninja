@@ -9,9 +9,7 @@ exports.index = function (req, res) {
     .populate('members')//
     .select('members')//
     .exec(function (err, meeting) {
-      console.log('member.controller  ', 'err: ', err);
       if (err) { return handleError(res, err); }
-      console.log('member.controller  ', 'meeting: ', meeting);
       return res.json(200, meeting.members);
     });
 };
