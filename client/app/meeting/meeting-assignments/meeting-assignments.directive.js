@@ -6,6 +6,7 @@ angular.module('PowwowNinjaApp')
     return {
       templateUrl: 'app/meeting/meeting-assignments/meeting-assignments.html',
       restrict: 'E',
-      scope: {assignments: '='}
+      scope: {assignments: '='},
+      controller: 'MeetingAssignmentsCtrl'
     };
   });

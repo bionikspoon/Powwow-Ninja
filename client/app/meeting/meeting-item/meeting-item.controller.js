@@ -31,11 +31,6 @@ angular.module('PowwowNinjaApp')
         });
     };
 
-    $scope.completeAssignment = function (assignment) {
-      assignment.closed = Date.now();
-      assignment.status = 'completed';
-      $log.debug('meeting-item.controller  ', 'assignment: ', assignment);
-    };
 
     $scope.promptAssignment = false;
     $scope.newAssignment = {};
@@ -46,8 +41,8 @@ angular.module('PowwowNinjaApp')
       assignment.owner = $scope.newAssignment.owner;
       assignment.opened = Date.now();
       $scope.newAssignment = {};
-
-      var index = $scope.item.assignments.push(assignment);
+      $scope.item.assignments.push(assignment);
+      var index = _.findIndex($scope.item.assignments, assignment);
       $scope.item.assignments.post(assignment)//
         .then(function (assignment) {
           _.merge($scope.item.assignments[index], assignment);
@@ -58,7 +53,6 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.saveItem = function () {
-
       $scope.item.save();
     };
   });

@@ -40,7 +40,7 @@ exports.create = function (req, res) {
 
       var assignment = req.body;
 
-      item.assignments.push(assignment);
+      assignment = _.first(item.assignments.addToSet(assignment));
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
@@ -52,22 +52,23 @@ exports.create = function (req, res) {
 };
 
 // Updates an existing meeting assignment in the DB.
-//exports.update = function (req, res) {
-//  if (req.body._id) { delete req.body._id; }
-//  Meeting.findById(req.params.id)//
-//    .populate('assignments')//
-//    .select('assignments')//
-//    .exec(function (err, meeting) {
-//      var assignment = meeting.assignments.id(req.params.assignment);
-//      if (err) { return handleError(res, err); }
-//      if (!meeting) { return res.send(404); }
-//      _.merge(assignment, req.body);
-//      meeting.save(function (err) {
-//        if (err) { return handleError(res, err); }
-//        return res.json(200, meeting);
-//      });
-//    });
-//};
+exports.update = function (req, res) {
+  if (req.body._id) { delete req.body._id; }
+  Meeting.findById(req.params.id)//
+    .select('items._id items.assignments')//
+    .exec(function (err, meeting) {
+      if (err) { return handleError(res, err); }
+      if (!meeting) { return res.send(404); }
+
+      var assignment = meeting.items.id(req.params.item).assignments.id(req.params.assignment);
+
+      _.merge(assignment, req.body);
+      meeting.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, assignment);
+      });
+    });
+};
 
 // Deletes a meeting from the DB.
 //exports.destroy = function (req, res) {

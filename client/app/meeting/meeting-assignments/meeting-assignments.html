@@ -1,5 +1,7 @@
 <ul class="list-group">
-   <li ng-repeat="assignment in assignments" class="list-group-item">
+   <li ng-repeat="assignment in assignments"
+      class="list-group-item"
+      ng-class="{disabled:assignment.closed}">
       {{assignment.owner.name }} - {{ assignment.description }}
       <div class="btn-group btn-group-xs pull-right" role="group">
          <button class="btn btn-default">
