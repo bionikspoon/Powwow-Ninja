@@ -2,5 +2,5 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingCtrl', function ($scope) {
+  .controller('MeetingCtrl', function () {
   });

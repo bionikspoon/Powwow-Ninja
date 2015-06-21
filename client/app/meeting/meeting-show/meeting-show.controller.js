@@ -19,12 +19,12 @@ angular.module('PowwowNinjaApp')
       $scope.meeting.sections.post(item)//
         .then(function (item) {
           $log.debug('meeting-show.controller  ', 'item: ', item);
-          $scope.meeting.sections.push(item)
+          $scope.meeting.sections.push(item);
         })//
         .catch(function (error) {
           $log.error('meeting-show.controller  ', 'error: ', error);
         });
 
-    }
+    };
 
   });

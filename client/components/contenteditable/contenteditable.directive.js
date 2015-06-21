@@ -16,16 +16,16 @@ angular.module('PowwowNinjaApp')
             scope.$evalAsync(read);
           });
 
-          read();
-
           function read() {
             var html = element.html();
-            if (attrs.stripBr && html == '<br>') {
+            if (attrs.stripBr && html === '<br>') {
               html = '';
             }
             ngModel.$setViewValue(html);
           }
-        }
+
+          read();
+        };
       }
     };
   });

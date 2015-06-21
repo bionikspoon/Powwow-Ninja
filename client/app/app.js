@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('PowwowNinjaApp', [
+  'ngMessages',
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngMessages',
   'ngAria',
   'ngAnimate',
   'btford.socket-io',
@@ -63,6 +63,4 @@ angular.module('PowwowNinjaApp', [
         }
       });
     });
-  })
-
-  .constant('Marked', marked);
+  });

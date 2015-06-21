@@ -1,13 +1,14 @@
 'use strict';
 
-var convertToDate = _.curry(function (field, element) {
-  if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]);}
-  return element;
-});
 
 angular.module('PowwowNinjaApp')
 
   .factory('Meeting', function ($stateParams, Restangular) {
+
+    var convertToDate = _.curry(function (field, element) {
+      if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]);}
+      return element;
+    });
 
     Restangular.addElementTransformer('members', convertToDate('checkin'));
     Restangular.addElementTransformer('members', convertToDate('checkout'));

@@ -33,7 +33,7 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.toggleMemberConfig = function (index) {
-      $scope.memberConfig[index] = !$scope.memberConfig[index]
+      $scope.memberConfig[index] = !$scope.memberConfig[index];
     };
 
     $scope.toggleAddMemberForm = function () {
@@ -51,5 +51,5 @@ angular.module('PowwowNinjaApp')
         });
 
       $scope.newMember = {};
-    }
+    };
   });

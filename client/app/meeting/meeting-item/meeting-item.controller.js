@@ -19,7 +19,7 @@ angular.module('PowwowNinjaApp')
              });
     };
     $scope.closeItem = function (item) {
-      item['closed_at'] = Date.now();
+      item.closed = Date.now();
       item.status = 'CLOSED';
       item.save()//
         .then(function (savedItem) {

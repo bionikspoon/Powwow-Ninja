@@ -19,5 +19,5 @@ angular.module('PowwowNinjaApp')
         url: '/{id:[0-9a-fA-F]{24}}',
         templateUrl: 'app/meeting/meeting-show/meeting-show.html',
         controller: 'MeetingShowCtrl'
-      })
+      });
   });
