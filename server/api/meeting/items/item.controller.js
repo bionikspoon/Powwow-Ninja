@@ -58,7 +58,7 @@ exports.update = function (req, res) {
       _.merge(item, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, meeting);
+        return res.json(200, item);
       });
     });
 };

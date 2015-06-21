@@ -1,7 +1,8 @@
 <span class="btn-group btn-group-xs pull-right" role="group">
    <button class="btn btn-default"
       role="button"
-      ng-disabled="hasOpenAssignment()">
+      ng-disabled="hasOpenAssignment()"
+      ng-click="closeItem(item)">
       <span class="glyphicon glyphicon-ok"></span>
    </button>
    <!-- /.btn btn-default -->
@@ -28,7 +29,7 @@
    id="addAssignmentForm"
    name="addAssignmentForm"
    class="form-inline"
-   ng-show="promptAssignment && activeItem || true"
+   ng-show="promptAssignment && activeItem"
    ng-submit="addAssignment()"
    novalidate>
 

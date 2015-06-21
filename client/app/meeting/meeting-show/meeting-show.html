@@ -18,7 +18,8 @@
             <meeting-item ng-repeat="item in items"
                ng-click="setActiveItem(item)"
                class="list-group-item"
-               ng-class="{'list-group-item-info':activeItem === item}"
+               ng-class="{'list-group-item-info':activeItem === item
+                         ,disabled:item.status==='CLOSED'}"
                meeting="meeting"
                item="item"
                active-item="activeItem === item"></meeting-item>
