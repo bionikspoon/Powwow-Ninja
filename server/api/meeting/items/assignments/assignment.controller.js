@@ -40,7 +40,6 @@ exports.create = function (req, res) {
 
       var assignment = req.body;
 
-      console.log('assignment.controller  ', 'assignment: ', assignment);
       item.assignments.push(assignment);
 
       meeting.save(function (err) {

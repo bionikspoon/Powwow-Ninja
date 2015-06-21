@@ -52,11 +52,6 @@ angular.module('PowwowNinjaApp')
       //  });
     };
 
-    $scope.saveNotes = function () {
-
-      $scope.item.save();
-    };
-
     $scope.saveItem = function () {
 
       $scope.item.save();
