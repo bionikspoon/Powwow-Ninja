@@ -39,12 +39,13 @@ exports.create = function (req, res) {
 
 
       var assignment = req.body;
+
+      console.log('assignment.controller  ', 'assignment: ', assignment);
       item.assignments.push(assignment);
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        console.log('assignment.controller  ', 'item:\n', item);
-        console.log('assignment.controller  ', 'assignment: ', assignment);
+
         return res.json(201, assignment);
 
       });

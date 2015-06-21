@@ -21,38 +21,45 @@
    contenteditable
    ng-model="item.title"></h4><!-- /.list-group-item-text -->
 
-<ul ng-show="item.assignments.length" class="list-group">
-   <li ng-repeat="assignment in item.assignments" class="list-group-item">
-      {{assignment.owner.name }} - {{ assignment.description }}
-      <button class="btn btn-default btn-xs">
-         <span class="glyphicon glyphicon-ok"
-            ng-click="completeAssignment(assignment)"></span>
-      </button>
-      <button class="btn btn-default btn-xs">
-         <span class="glyphicon glyphicon-remove"></span>
-      </button>
+<meeting-assignments ng-show="item.assignments.length"
+   assignments="item.assignments"></meeting-assignments>
 
-   </li>
-</ul>
-
-<form class="form-inline add-assignment"
+<form role="form"
+   id="addAssignmentForm"
+   name="addAssignmentForm"
+   class="form-inline"
    ng-show="promptAssignment && activeItem || true"
-   ng-submit="addAssignment()">
+   ng-submit="addAssignment()"
+   novalidate>
+
    <div class="form-group">
       <input type="text"
          ng-model="newAssignment.description"
-         class="form-control" />
+         class="form-control"
+         required />
    </div>
+   <!-- /.form-group -->
+
    <div class="form-group">
       <select ng-model="newAssignment.owner"
          class="form-control"
-         ng-options="member.name for member in meeting.members | orderBy: 'name'"></select>
+         ng-options="member.name for member in meeting.members | orderBy: 'name'"
+         required></select>
    </div>
    <!-- /.form-group -->
-   <button class="btn btn-default" type="submit">Add</button>
-</form><!-- /.form-inline -->
 
-<form role="form" name="itemNotesForm" ng-submit="saveNotes()">
+   <!-- #addAssignmentForm: Submit -->
+   <div class="form-group">
+      <button type="submit"
+         class="btn btn-default"
+         ng-disabled="addAssignmentForm.$invalid">
+         <span class="glyphicon glyphicon-plus"></span>
+      </button>
+   </div>
+   <!-- /.form-group -->
+</form><!-- /.form-horizontal -->
+
+<form role="form" name="itemNotesForm" ng-submit="saveNotes()" novalidate>
    <div class="form-group">
       <textarea ng-model="item.notes"
          class="form-control resize-height"

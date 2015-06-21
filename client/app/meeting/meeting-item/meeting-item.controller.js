@@ -30,7 +30,7 @@ angular.module('PowwowNinjaApp')
 
     $scope.addAssignment = function () {
       var assignment = $scope.newAssignment;
-      assignment.owner = $scope.newAssignment.owner._id;
+      assignment.owner = $scope.newAssignment.owner;
       assignment.opened = Date.now();
       $scope.newAssignment = {};
 
