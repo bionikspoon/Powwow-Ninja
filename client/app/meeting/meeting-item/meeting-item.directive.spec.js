@@ -10,12 +10,14 @@ describe('Directive: meetingItem', function () {
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
+    scope.item = {};
+    scope.item.assignments = [];
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<meeting-item></meeting-item>');
     element = $compile(element)(scope);
     scope.$apply();
-    //expect(element.text()).toBe('this is the meetingItem directive');
+    expect(element.text()).toBeUndefined();
   }));
 });

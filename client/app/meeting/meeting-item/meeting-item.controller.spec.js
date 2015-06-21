@@ -10,6 +10,9 @@ describe('Controller: MeetingItemCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
+    scope.item={};
+    scope.item.assignments = [];
+
     MeetingItemCtrl = $controller('MeetingItemCtrl', {
       $scope: scope
     });

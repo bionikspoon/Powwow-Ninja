@@ -13,9 +13,9 @@ describe('Directive: meetingAssignments', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<meeting-assignments></meeting-assignments>');
+    element = angular.element('<meeting-assignments assignments="item.assignments"></meeting-assignments>');
     element = $compile(element)(scope);
     scope.$apply();
-    //expect(element.text()).toBe('this is the meetingAssignments directive');
+    expect(element.text()).toBeTruthy();
   }));
 });

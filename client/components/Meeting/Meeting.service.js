@@ -36,5 +36,11 @@ angular.module('PowwowNinjaApp')
         $stateParams.id).all('items').post(item);
     };
 
+    meeting.restangularizeItem = function (reference) {
+      Restangular.restangularizeCollection(reference,
+        reference.assignments,
+        'assignments');
+    };
+
     return meeting;
   });

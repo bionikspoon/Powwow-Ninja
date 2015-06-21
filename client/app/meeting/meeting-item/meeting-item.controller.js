@@ -2,10 +2,9 @@
 
 angular.module('PowwowNinjaApp')
 
-  .controller('MeetingItemCtrl', function ($scope, $log, Restangular) {
-    Restangular.restangularizeCollection($scope.item,
-      $scope.item.assignments,
-      'assignments');
+  .controller('MeetingItemCtrl', function ($scope, $log, Meeting) {
+    $scope.item = _.merge({}, $scope.item);
+    Meeting.restangularizeItem($scope.item);
 
     $scope.hasOpenAssignment = function () {
       return $scope.item.hasOwnProperty('assignments') &&

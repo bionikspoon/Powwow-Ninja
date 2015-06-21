@@ -4,7 +4,6 @@ describe('Directive: meetingItemsSection', function () {
 
   // load the directive's module and view
   beforeEach(module('PowwowNinjaApp'));
-  beforeEach(module('app/meeting/meeting-items-section/meeting-items-section.html'));
 
   var element, scope;
 
@@ -16,6 +15,6 @@ describe('Directive: meetingItemsSection', function () {
     element = angular.element('<meeting-items-section></meeting-items-section>');
     element = $compile(element)(scope);
     scope.$apply();
-    //expect(element.text()).toBe('this is the meetingItemsSection directive');
+    expect(element.text()).toBeFalsy();
   }));
 });

@@ -10,12 +10,13 @@ describe('Directive: meetingMembers', function () {
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
+    scope.meeting = {};
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<meeting-members></meeting-members>');
-    element = $compile(element)(scope);
+    element = angular.element('<meeting-members  meeting="meeting"></meeting-members>');
+    element = $compile(element)(scope, _, {});
     scope.$apply();
-    //expect(element.text()).toBe('this is the meetingMembers directive');
+    expect(element.text()).toBeTruthy();
   }));
 });
