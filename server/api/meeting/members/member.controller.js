@@ -10,7 +10,7 @@ exports.index = function (req, res) {
     .select('members')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      return res.json(200, meeting.members);
+      return res.status(200).json(meeting.members);
     });
 };
 //
@@ -38,7 +38,7 @@ exports.create = function (req, res) {
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, member);
+        return res.status(200).json(member);
       });
     });
 };
@@ -57,7 +57,7 @@ exports.update = function (req, res) {
       _.merge(member, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, meeting);
+        return res.status(200).json(meeting);
       });
     });
 };

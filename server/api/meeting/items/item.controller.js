@@ -9,7 +9,7 @@ exports.index = function (req, res) {
     .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      return res.json(200, meeting.items);
+      return res.status(200).json(meeting.items);
     });
 };
 
@@ -39,7 +39,7 @@ exports.create = function (req, res) {
 
       item.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(201, item);
+        return res.status(201).json(item);
 
       });
     });
@@ -58,7 +58,7 @@ exports.update = function (req, res) {
       _.merge(item, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, item);
+        return res.status(200).json(item);
       });
     });
 };

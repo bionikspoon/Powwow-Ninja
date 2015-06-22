@@ -25,7 +25,7 @@ function isAuthenticated() {
     .use(function (req, res, next) {
       User.findById(req.user._id, function (err, user) {
         if (err) return next(err);
-        if (!user) return res.send(401);
+        if (!user) return res.sendStatus(401);
 
         req.user = user;
         next();
@@ -46,7 +46,7 @@ function hasRole(roleRequired) {
           config.userRoles.indexOf(roleRequired)) {
         next();
       } else {
-        res.send(403);
+        res.sendStatus(403);
       }
     });
 }

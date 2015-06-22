@@ -7,7 +7,7 @@ var Meeting = require('./meeting.model');
 exports.index = function (req, res) {
   Meeting.find(function (err, meetings) {
     if (err) { return handleError(res, err); }
-    return res.json(200, meetings);
+    return res.status(200).json(meetings);
   });
 };
 
@@ -26,7 +26,7 @@ exports.show = function (req, res) {
 exports.create = function (req, res) {
   Meeting.create(req.body, function (err, meeting) {
     if (err) { return handleError(res, err); }
-    return res.json(201, meeting);
+    return res.status(201).json(meeting);
   });
 };
 
@@ -39,7 +39,7 @@ exports.update = function (req, res) {
     var updated = _.merge(meeting, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, meeting);
+      return res.status(200).json(meeting);
     });
   });
 };

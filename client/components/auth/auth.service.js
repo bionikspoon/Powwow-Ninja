@@ -3,7 +3,7 @@
 angular.module('PowwowNinjaApp')
 
   .factory('Auth',
-  function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  function Auth($location, $rootScope, $http, User, $cookieStore, $q, $log) {
     var currentUser = {};
     if ($cookieStore.get('token')) {
       currentUser = User.get();
@@ -48,7 +48,6 @@ angular.module('PowwowNinjaApp')
        */
       logout: function () {
         $cookieStore.remove('token');
-        currentUser = {};
       },
 
       /**
@@ -114,6 +113,7 @@ angular.module('PowwowNinjaApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function (cb) {
+
         if (currentUser.hasOwnProperty('$promise')) {
           currentUser.$promise//
             .then(function () {
