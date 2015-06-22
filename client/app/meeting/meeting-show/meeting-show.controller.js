@@ -16,13 +16,13 @@ angular.module('PowwowNinjaApp')
     $scope.addItem = function () {
       var item = $scope.newItem;
       $scope.newItem = {};
-      $scope.meeting.sections.post(item)//
-        .then(function (item) {
-          $log.debug('meeting-show.controller  ', 'item: ', item);
-          $scope.meeting.sections.push(item);
-        })//
+      $log.debug('meeting-show.controller  ',
+        'Meeting.addItem(item): ',
+        Meeting.addItem(item));
+      Meeting.addItem(item)//
         .catch(function (error) {
           $log.error('meeting-show.controller  ', 'error: ', error);
+          $scope.newItem = item;
         });
 
     };

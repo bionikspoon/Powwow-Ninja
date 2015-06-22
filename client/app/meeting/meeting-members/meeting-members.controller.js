@@ -40,15 +40,14 @@ angular.module('PowwowNinjaApp')
     };
 
     $scope.addMember = function () {
-      $scope.meeting.members.post({name: $scope.newMember.name})//
-        .then(function (member) {
-          $log.debug('meeting-members.controller  ', 'member: ', member);
-          $scope.meeting.members.push(member);
-        })//
+      var newMember = $scope.newMember;
+      $scope.newMember = {};
+      Meeting.addMember(newMember)//
         .catch(function (error) {
           $log.error('meeting-members.controller  ', 'error: ', error);
+          $scope.newMember = newMember;
+          throw error;
         });
 
-      $scope.newMember = {};
     };
   });

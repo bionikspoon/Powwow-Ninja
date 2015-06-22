@@ -35,11 +35,11 @@ exports.create = function (req, res) {
       if (!meeting) { return res.send(404); }
       var item = req.body;
       item.section = 'New Items';
-      item = meeting.items.addToSet(req.body)[0];
+      meeting.items.addToSet(item);
 
-      item.save(function (err) {
+      meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(201).json(item);
+        return res.status(201).json(meeting.items);
 
       });
     });

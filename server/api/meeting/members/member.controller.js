@@ -21,7 +21,7 @@ exports.index = function (req, res) {
 //    .exec(function (err, meeting) {
 //      if (err) { return handleError(res, err); }
 //      if (!meeting) { return res.send(404); }
-//      return res.json(meeting);
+//      return res.json(meeting.members);
 //    });
 //};
 
@@ -34,11 +34,11 @@ exports.create = function (req, res) {
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-      var member = meeting.members.addToSet(req.body)[0];
+      meeting.members.addToSet(req.body);
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(member);
+        return res.status(200).json(meeting.members);
       });
     });
 };
@@ -57,7 +57,7 @@ exports.update = function (req, res) {
       _.merge(member, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(meeting);
+        return res.status(200).json(meeting.members);
       });
     });
 };
