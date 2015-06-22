@@ -3,7 +3,6 @@
 angular.module('PowwowNinjaApp')
 
   .controller('MeetingMembersCtrl', function ($scope, $log, Meeting) {
-    $scope.meeting.members = Meeting.membersList().$object;
 
     var now = function () {
       var date = new Date();
@@ -15,21 +14,21 @@ angular.module('PowwowNinjaApp')
     $scope.memberConfig = {};
     $scope.checkin = function (member) {
       member.checkin = now();
-      member.save();
+      member.put()
     };
     $scope.checkout = function (member) {
       member.checkout = now();
-      member.save();
+      member.put();
     };
 
     $scope.resetCheckin = function (member) {
       member.checkin = null;
       member.checkout = null;
-      member.save();
+      member.put();
     };
     $scope.resetCheckout = function (member) {
       member.checkout = null;
-      member.save();
+      member.put();
     };
 
     $scope.toggleMemberConfig = function (index) {

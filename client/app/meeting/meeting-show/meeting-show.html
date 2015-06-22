@@ -13,9 +13,9 @@
 
       <section class="col-sm-8 col-lg-7">
          <meeting-items-section title="key"
-            ng-repeat="(key, items) in meeting.itemSections | groupBy: 'section'">
+            ng-repeat="(key, groupedItems) in meeting.items | groupBy: 'section'">
 
-            <meeting-item ng-repeat="item in items"
+            <meeting-item ng-repeat="item in groupedItems"
                ng-click="setActiveItem(item)"
                class="list-group-item"
                ng-class="{'list-group-item-info':activeItem === item

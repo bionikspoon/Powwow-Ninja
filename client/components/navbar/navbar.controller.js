@@ -3,7 +3,7 @@
 angular.module('PowwowNinjaApp')
 
   .controller('NavbarCtrl', function ($scope, $location, Auth, Meeting) {
-    Meeting.getAllList()//
+    Meeting.getAllMeetings()//
       .then(function (meetingsList) {
         $scope.meetingsList = meetingsList;
       });

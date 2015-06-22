@@ -3,7 +3,7 @@
 
 angular.module('PowwowNinjaApp')
 
-  .factory('Meeting', function ($stateParams, Restangular) {
+  .factory('Meeting', function ($stateParams, $log, Restangular, $rootScope) {
 
     var convertToDate = _.curry(function (field, element) {
       if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]);}
@@ -12,35 +12,51 @@ angular.module('PowwowNinjaApp')
 
     Restangular.addElementTransformer('members', convertToDate('checkin'));
     Restangular.addElementTransformer('members', convertToDate('checkout'));
+    Restangular.addElementTransformer('meetings', false, function (element) {
+      $log.debug('Meeting.service  ', 'element: ', element);
+      if (element.hasOwnProperty('members')) {
+        Restangular.restangularizeCollection(element, element.members,'members')
+      }
+      return element;
+    });
 
-    var meeting = {};
 
-    meeting.getAllList = function () {
+    var Meeting = {};
+
+    Meeting.meeting = {};
+
+    Meeting.getAllMeetings = function () {
       return Restangular.all('meetings').getList();
     };
 
-    meeting.get = function () {
-      return Restangular.one('meetings', $stateParams.id).get();
+    Meeting.get = function () {
+      return Restangular.one('meetings', $stateParams.id).get()//
+        .then(function (meeting) {
+          angular.copy(meeting, Meeting.meeting)
+        })//
+        .catch(function (error) {
+          $log.error('Meeting.service  ', 'error: ', error);
+        });
     };
 
-    meeting.membersList = function () {
+    Meeting.membersList = function () {
       return Restangular.one('meetings', $stateParams.id).getList('members');
     };
 
-    meeting.itemsList = function () {
+    Meeting.itemsList = function () {
       return Restangular.one('meetings', $stateParams.id).getList('items');
     };
 
-    meeting.addItem = function (item) {
+    Meeting.addItem = function (item) {
       return Restangular.one('meetings',
         $stateParams.id).all('items').post(item);
     };
 
-    meeting.restangularizeItem = function (reference) {
+    Meeting.restangularizeItem = function (reference) {
       Restangular.restangularizeCollection(reference,
         reference.assignments,
         'assignments');
     };
 
-    return meeting;
+    return Meeting;
   });
