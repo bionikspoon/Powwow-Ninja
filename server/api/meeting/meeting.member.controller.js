@@ -38,7 +38,6 @@ exports.create = function (req, res) {
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        console.log('meeting.member.controller  ', 'member: ', member);
         return res.status(201).json(member);
       });
     });
@@ -58,7 +57,6 @@ exports.update = function (req, res) {
       _.merge(member, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        console.log('meeting.member.controller  ', 'member: ', member);
         return res.status(200).json(member);
       });
     });
