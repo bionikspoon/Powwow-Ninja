@@ -1,68 +1,69 @@
 'use strict';
 
 var _ = require('lodash');
-var Meeting = require('./../meeting.model.js');
+var Meeting = require('./meeting.model.js');
 
-// Get list of meeting members
+// Get list of items
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
-    .populate('members')//
-    .select('members')//
+    .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(meeting.members);
+      return res.status(200).json(meeting.items);
     });
 };
-//
-//// Get a single meeting
+
+// Get a single meeting
 //exports.show = function (req, res) {
 //  Meeting.findById(req.params.id)//
-//    .populate('members')//
+//    .select('items')//
 //    .exec(function (err, meeting) {
 //      if (err) { return handleError(res, err); }
 //      if (!meeting) { return res.send(404); }
-//      return res.json(meeting.members);
+//      return res.json(meeting);
 //    });
 //};
 
-// Creates a new member in the DB.
+// Creates a new meeting in the DB.
 exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
-    .populate('members')//
-    .select('members')//
+    .populate('items')//
+    .select('items')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-      meeting.members.addToSet(req.body);
+      var item = req.body;
+      item.section = 'New Items';
+      meeting.items.addToSet(item);
 
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(meeting.members);
+        return res.status(201).json(meeting.items);
+
       });
     });
 };
 
-// Updates an existing member in the DB.
+// Updates an existing meeting item in the DB.
 exports.update = function (req, res) {
-
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
-    .populate('members')//
-    .select('members')//
+    .populate('items')//
+    .select('items')//
     .exec(function (err, meeting) {
-      var member = meeting.members.id(req.params.member);
+      var item = meeting.items.id(req.params.item);
       if (err) { return handleError(res, err); }
       if (!meeting) { return res.send(404); }
-      _.merge(member, req.body);
+      _.merge(item, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(meeting.members);
+        return res.status(200).json(item);
       });
     });
 };
-//
-//// Deletes a meeting from the DB.
+
+// Deletes a meeting from the DB.
 //exports.destroy = function (req, res) {
 //  Meeting.findById(req.params.id, function (err, meeting) {
 //    if (err) { return handleError(res, err); }

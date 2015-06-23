@@ -4,22 +4,15 @@ angular.module('PowwowNinjaApp')
 
   .controller('MeetingMembersCtrl', function ($scope, $log, Meeting) {
 
-    var now = function () {
-      var date = new Date();
-      date.setSeconds(0);
-      date.setMilliseconds(0);
-      return date;
-    };
 
     $scope.memberConfig = {};
     $scope.checkin = function (member) {
       member.checkin = now();
       member.put()
     };
-    $scope.checkout = function (member) {
-      member.checkout = now();
-      member.put();
-    };
+    $scope.checkin = Meeting.updateMember('checkin');
+
+    $scope.checkout = Meeting.updateMember('checkout');
 
     $scope.resetCheckin = function (member) {
       member.checkin = null;

@@ -3,10 +3,11 @@
 
 angular.module('PowwowNinjaApp')
 
-  .factory('Meeting', function ($stateParams, $log, $q, Restangular) {
+  .factory('Meeting',
+  function ($stateParams, $log, $q, Restangular, $rootScope) {
 
     var convertToDate = _.curry(function (field, element) {
-      if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]);}
+      if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]); }
       return element;
     });
 
@@ -18,6 +19,14 @@ angular.module('PowwowNinjaApp')
       }
       return element;
     });
+
+
+    var now = function () {
+      var date = new Date();
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
+    };
 
     Restangular//
       .addElementTransformer('members', convertToDate('checkin'))//
@@ -38,11 +47,10 @@ angular.module('PowwowNinjaApp')
     };
 
     Meeting.get = function () {
-      var promise = Restangular.one('meetings', $stateParams.id).get()//
+      var promise = Restangular.one('meetings', $stateParams.id).get();
       return promise//
         .then(function (meeting) {
-          $log.debug('Meeting.service  ', 'meeting: ', meeting);
-          angular.copy(meeting, Meeting.meeting);
+          Restangular.copy(meeting, Meeting.meeting);
           return meeting;
         })//
         .catch(function (error) {
@@ -60,11 +68,10 @@ angular.module('PowwowNinjaApp')
     //};
 
     Meeting.addItem = function (item) {
-      var promise = Meeting.meeting.all('items').post(item);
+      var promise = Meeting.meeting.items.post(item);
       return promise//
         .then(function (items) {
-          $log.debug('Meeting.service  ', 'items: ', items);
-          angular.copy(items, Meeting.meeting.items);
+          Restangular.copy(items, Meeting.meeting.items);
           return items;
         })//
         .catch(function (error) {
@@ -74,18 +81,42 @@ angular.module('PowwowNinjaApp')
     };
 
     Meeting.addMember = function (member) {
-      var promise = Meeting.meeting.all('members').post(member);
+      var promise = Meeting.meeting.members.post(member);
       return promise //
-        .then(function (members) {
-          $log.debug('Meeting.service  ', 'members: ', members);
-          angular.copy(members, Meeting.meeting.members);
-          return members;
+        .then(function (member) {
+          //angular.merge(member, member);
+          Meeting.meeting.members.push(member);
+          $log.debug('Meeting.service  ', 'member: ', member);
+          return member;
         })//
         .catch(function (error) {
           $log.error('Meeting.service  ', 'error: ', error);
           throw error;
         });
-    }
+    };
+
+    Meeting.updateMember = _.curry(function (field, member) {
+      //member = _.find(Meeting.meeting.members,member);
+      member = Restangular.copy(member);
+      _.set(member, field, now());
+
+      var promise = member.patch();
+      return promise //
+        .then(function (memberResponse) {
+          angular.merge(member, memberResponse);
+          $log.debug('Meeting.service  ',
+            'member,member.checkin: ',
+            member,
+            member.checkin);
+
+          return memberResponse;
+        })//
+        .catch(function (error) {
+          $log.error('Meeting.service  ', 'error: ', error);
+          delete member[field];
+          throw error;
+        });
+    });
 
     Meeting.restangularizeItem = function (reference) {
       Restangular.restangularizeCollection(reference,

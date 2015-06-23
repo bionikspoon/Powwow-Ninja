@@ -6,6 +6,16 @@ angular.module('PowwowNinjaApp')
 
     $scope.meeting = Meeting.meeting;
     Meeting.get();
+    $scope.$watchGroup([Meeting.meeting.members], function (newValue, oldValue) {
+      $log.debug('meeting-show.controller  ',
+        'newValue, oldValue: ',
+        newValue,
+        oldValue);
+      if (newValue !== oldValue) {
+        angular.copy(Meeting.meeting, $scope.meeting)
+      }
+
+    });
     $scope.activeItem = null;
 
 

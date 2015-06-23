@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Meeting = require('./../../meeting.model.js');
+var Meeting = require('./meeting.model.js');
 
 // Get list of meetings
 //exports.index = function (req, res) {
