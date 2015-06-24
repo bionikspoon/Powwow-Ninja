@@ -73,10 +73,19 @@ describe('Meeting API', function (done) {
         done();
       });
   });
+  
+  describe('Working with a meeting', function () {
+    var meeting;
+    beforeEach(function (done) {
+      Meeting.create(MockMeeting, function (error, meetingResponse) {
+        if (error) { done(error); }
+        meeting = meetingResponse;
+        done();
+      });
+    });
 
-  it('should return a single meeting', function (done) {
-    Meeting.create(MockMeeting, function (error, meeting) {
-      if (error) { done(error); }
+    it('should return a single meeting', function (done) {
+
       request(app)//
         .get('/api/meetings/' + meeting._id)//
         .expect(200)//
@@ -85,16 +94,33 @@ describe('Meeting API', function (done) {
           if (error) { done(error); }
 
           res.body.should.be.an.Object();
-          res.body.items[0].title.should.equal(MockMeeting.items[0].title);
-          res.body.items[0].section.should.equal(MockMeeting.items[0].section);
-          res.body.items[0].notes.should.equal(MockMeeting.items[0].notes);
+          var item = res.body.items[0];
+          var mockItem = MockMeeting.items[0];
+          item.title.should.equal(mockItem.title);
+          item.section.should.equal(mockItem.section);
+          item.notes.should.equal(mockItem.notes);
 
 
           done();
-        })
 
-    })
+        })
+    });
+
+    it('should update a single meeting', function (done) {
+      var update = {items: [{title: 'Go to seaworld'}]};
+      request(app)//
+        .patch('/api/meetings/' + meeting._id)//
+        .expect(200)//
+        .expect('Content-Type', /json/)//
+        .send(update)//
+        .end(function (error, res) {
+          if (error) { done(error); }
+          res.body.items[0].title.should.be.equal(update.items[0].title);
+          done();
+        })
+    });
   });
+
 
 });
 
