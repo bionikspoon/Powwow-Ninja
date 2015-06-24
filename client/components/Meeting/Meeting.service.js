@@ -4,7 +4,7 @@
 angular.module('PowwowNinjaApp')
 
   .factory('Meeting',
-  function ($stateParams, $log, $q, Restangular, $rootScope) {
+  function ($stateParams, $log, $q, Restangular) {
 
     var convertToDate = _.curry(function (field, element) {
       if (element.hasOwnProperty(field)) { element[field] = new Date(element[field]); }
@@ -15,7 +15,7 @@ angular.module('PowwowNinjaApp')
       if (element.hasOwnProperty(property)) {
         Restangular.restangularizeCollection(element,
           element[property],
-          property)
+          property);
       }
       return element;
     });

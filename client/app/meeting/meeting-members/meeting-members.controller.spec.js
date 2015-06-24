@@ -2,22 +2,22 @@
 
 describe('Controller: MeetingMembersCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('PowwowNinjaApp'));
+    // load the controller's module
+    beforeEach(module('PowwowNinjaApp'));
 
-  var MeetingMembersCtrl, scope;
+    var MeetingMembersCtrl, scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    scope.meeting = {};
-    scope.meeting.members = [];
-    MeetingMembersCtrl = $controller('MeetingMembersCtrl', {
-      $scope: scope
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($controller, $rootScope) {
+        scope = $rootScope.$new();
+        scope.meeting = {};
+        scope.meeting.members = [];
+        MeetingMembersCtrl = $controller('MeetingMembersCtrl', {
+            $scope: scope
+        });
+    }));
+
+    it('should ...', function () {
+        expect(1).toEqual(1);
     });
-  }));
-
-  it('should ...', function () {
-    expect(1).toEqual(1);
-  });
 });

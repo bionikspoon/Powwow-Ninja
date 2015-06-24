@@ -2,20 +2,20 @@
 
 describe('Controller: MeetingIndexCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('PowwowNinjaApp'));
+    // load the controller's module
+    beforeEach(module('PowwowNinjaApp'));
 
-  var MeetingIndexCtrl, scope;
+    var MeetingIndexCtrl, scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    MeetingIndexCtrl = $controller('MeetingIndexCtrl', {
-      $scope: scope
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($controller, $rootScope) {
+        scope = $rootScope.$new();
+        MeetingIndexCtrl = $controller('MeetingIndexCtrl', {
+            $scope: scope
+        });
+    }));
+
+    it('should ...', function () {
+        expect(1).toEqual(1);
     });
-  }));
-
-  it('should ...', function () {
-    expect(1).toEqual(1);
-  });
 });

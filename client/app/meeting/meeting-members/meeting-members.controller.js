@@ -6,10 +6,7 @@ angular.module('PowwowNinjaApp')
 
 
     $scope.memberConfig = {};
-    $scope.checkin = function (member) {
-      member.checkin = now();
-      member.put()
-    };
+
     $scope.checkin = Meeting.updateMember('checkin');
 
     $scope.checkout = Meeting.updateMember('checkout');
