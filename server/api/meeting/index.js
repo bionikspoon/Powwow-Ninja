@@ -18,7 +18,7 @@ router.delete('/:id', controller.destroy);
 /**
  * Meeting.Members
  **/
-//router.get('/:id/members', member.index);
+router.get('/:id/members', member.index);
 //router.get('/:id/members/:member', member.show);
 router.post('/:id/members', member.create);
 router.put('/:id/members/:member', member.update);
@@ -28,7 +28,7 @@ router.patch('/:id/members/:member', member.update);
 /**
  * Meeting.Topics
  **/
-//router.get('/:id/items', item.index);
+router.get('/:id/items', item.index);
 //router.get('/:id/items/:item', item.show);
 router.post('/:id/items', item.create);
 router.put('/:id/items/:item', item.update);

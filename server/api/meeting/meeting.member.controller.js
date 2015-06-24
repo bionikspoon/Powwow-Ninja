@@ -4,17 +4,17 @@ var _ = require('lodash');
 var Meeting = require('./meeting.model.js');
 
 // Get list of meeting members
-//exports.index = function (req, res) {
-//  Meeting.findById(req.params.id)//
-//    .populate('members')//
-//    .select('members')//
-//    .exec(function (err, meeting) {
-//      if (err) { return handleError(res, err); }
-//      return res.status(200).json(meeting.members);
-//    });
-//};
-//
-//// Get a single meeting
+exports.index = function (req, res) {
+  Meeting.findById(req.params.id)//
+    .populate('members')//
+    .select('members')//
+    .exec(function (err, meeting) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(meeting.members);
+    });
+};
+
+// Get a single meeting
 //exports.show = function (req, res) {
 //  Meeting.findById(req.params.id)//
 //    .populate('members')//
@@ -61,8 +61,8 @@ exports.update = function (req, res) {
       });
     });
 };
-//
-//// Deletes a meeting from the DB.
+
+// Deletes a meeting from the DB.
 //exports.destroy = function (req, res) {
 //  Meeting.findById(req.params.id, function (err, meeting) {
 //    if (err) { return handleError(res, err); }
