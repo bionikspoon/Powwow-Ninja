@@ -4,11 +4,10 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var Meeting = require('./meeting.model');
+var _ = require('lodash');
 
 var clean = function (done) {
-    Meeting.find({}).remove().exec().then(function () {
-        done();
-    });
+    Meeting.find({}).remove().exec().then(function () {done();});
 };
 
 var MockMeeting = {
@@ -34,13 +33,13 @@ describe('Meeting Members API', function (done) {
         var meeting;
         beforeEach(function (done) {
             Meeting.create(MockMeeting, function (error, meetingResponse) {
-                if (error) { done(error); }
+                if (error) { return done(error); }
                 meeting = meetingResponse;
                 done();
             });
         });
 
-        it('should respond with JSON array', function (done) {
+        it('should return an array of members', function (done) {
             request(app)//
                 .get('/api/meetings/' + meeting._id + '/members')//
                 .expect(200)//
@@ -61,95 +60,107 @@ describe('Meeting Members API', function (done) {
                 .expect('Content-Type', /json/)//
                 .send(newMember)//
                 .end(function (error, res) {
-                    if (error) { done(error); }
+                    if (error) { return done(error); }
                     res.body.name.should.be.equal(newMember.name);
                     res.body.should.have.property('_id')//
                         .and.match(/[a-fA-F0-9]{24}/);
                     done();
                 });
         });
+
+        describe('Working with a member', function () {
+            var member;
+            var MockMember = _.first(MockMeeting.members);
+            beforeEach(function (done) {
+
+                Meeting//
+                    .findOne({'members.name': MockMember.name})//
+                    .select('members')//
+                    .exec(function (error, meeting) {
+                        if (error) { return done(error); }
+                        member = _.findWhere(meeting.members, MockMember);
+                        done();
+                    })
+            });
+
+            it('should return a single member', function (done) {
+                request(app)//
+                    .get('/api/meetings/' + meeting._id + '/members/' +
+                         member._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/)//
+                    .end(function (error, res) {
+                        if (error) { return done(error); }
+                        res.body.should.be.an.Object();
+                        res.body.name.should.equal(MockMember.name);
+                        res.body._id.should.match(/[a-f0-9]{24}/i)//
+                            .and.equal(member.id);
+                        done();
+                    });
+            });
+
+            it('should checkin a single member', function (done) {
+                var now = Date.now();
+                request(app)//
+                    .patch('/api/meetings/' + meeting._id + '/members/' +
+                           member._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/)//
+                    .send({checkin: now}).end(function (error, res) {
+                        if (error) { return done(error); }
+                        res.body.should.be.an.Object();
+
+                        Date(res.body.checkin).should.equal(Date(now));
+
+
+                        done();
+                    });
+            });
+
+            it('should checkout a single member', function (done) {
+                var now = Date.now();
+                request(app)//
+                    .patch('/api/meetings/' + meeting._id + '/members/' +
+                           member._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/)//
+                    .send({
+                        checkin: now,
+                        checkout: now
+                    })//
+                    .end(function (error, res) {
+                        if (error) { return done(error); }
+                        res.body.should.be.an.Object();
+
+                        Date(res.body.checkout).should.equal(Date(now));
+
+
+                        done();
+                    });
+            });
+
+            it('should update a single member', function (done) {
+                var name = 'Dwayne Johnson';
+                request(app)//
+                    .patch('/api/meetings/' + meeting._id + '/members/' +
+                           member._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/)//
+                    .send({name: name})//
+                    .end(function (error, res) {
+                        if (error) { return done(error); }
+                        res.body.should.be.an.Object();
+
+                        res.body.name.should.equal(name);
+
+
+                        done();
+                    });
+            });
+
+
+        });
     });
-
-
-    //it('should create a new empty meeting', function (done) {
-    //    request(app)//
-    //        .post('/api/meetings')//
-    //        .expect(201)//
-    //        .expect('Content-Type', /json/)//
-    //        .end(function (error, res) {
-    //            if (error) { done(error); }
-    //
-    //            res.body.should.be.an.instanceOf(Object);
-    //            res.body.should.have.property('members').with.length(0);
-    //            res.body.should.have.property('items').with.length(0);
-    //
-    //            done();
-    //        });
-    //});
-    //
-    //it('should create a populated meeting', function (done) {
-    //
-    //    request(app)//
-    //        .post('/api/meetings')//
-    //        .expect(201)//
-    //        .expect('Content-Type', /json/)//
-    //        .send(MockMeeting)//
-    //        .end(function (error, res) {
-    //            if (error) { done(error); }
-    //
-    //            res.body.should.be.an.Object();
-    //            res.body.should.have.property('members').with.length(0);
-    //            res.body.should.have.property('items').with.length(1);
-    //
-    //            done();
-    //        });
-    //});
-    //
-    //describe('Working with a meeting', function () {
-    //    var meeting;
-    //    beforeEach(function (done) {
-    //        Meeting.create(MockMeeting, function (error, meetingResponse) {
-    //            if (error) { done(error); }
-    //            meeting = meetingResponse;
-    //            done();
-    //        });
-    //    });
-    //
-    //    it('should return a single meeting', function (done) {
-    //
-    //        request(app)//
-    //            .get('/api/meetings/' + meeting._id)//
-    //            .expect(200)//
-    //            .expect('Content-Type', /json/)//
-    //            .end(function (error, res) {
-    //                if (error) { done(error); }
-    //
-    //                res.body.should.be.an.Object();
-    //                var item = res.body.items[0];
-    //                var mockItem = MockMeeting.items[0];
-    //                item.title.should.equal(mockItem.title);
-    //                item.section.should.equal(mockItem.section);
-    //                item.notes.should.equal(mockItem.notes);
-    //
-    //
-    //                done();
-    //
-    //            })
-    //    });
-    //
-    //    it('should update a single meeting', function (done) {
-    //        var update = {items: [{title: 'Go to seaworld'}]};
-    //        request(app)//
-    //            .patch('/api/meetings/' + meeting._id)//
-    //            .expect(200)//
-    //            .expect('Content-Type', /json/)//
-    //            .send(update)//
-    //            .end(function (error, res) {
-    //                if (error) { done(error); }
-    //                res.body.items[0].title.should.be.equal(update.items[0].title);
-    // done(); }) }); });
-
-
 });
 
 

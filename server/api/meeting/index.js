@@ -19,7 +19,7 @@ router.delete('/:id', controller.destroy);
  * Meeting.Members
  **/
 router.get('/:id/members', member.index);
-//router.get('/:id/members/:member', member.show);
+router.get('/:id/members/:member', member.show);
 router.post('/:id/members', member.create);
 router.put('/:id/members/:member', member.update);
 router.patch('/:id/members/:member', member.update);

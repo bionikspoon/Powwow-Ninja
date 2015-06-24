@@ -6,7 +6,6 @@ var Meeting = require('./meeting.model.js');
 // Get list of meeting members
 exports.index = function (req, res) {
   Meeting.findById(req.params.id)//
-    .populate('members')//
     .select('members')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
@@ -14,22 +13,23 @@ exports.index = function (req, res) {
     });
 };
 
-// Get a single meeting
-//exports.show = function (req, res) {
-//  Meeting.findById(req.params.id)//
-//    .populate('members')//
-//    .exec(function (err, meeting) {
-//      if (err) { return handleError(res, err); }
-//      if (!meeting) { return res.send(404); }
-//      return res.json(meeting);
-//    });
-//};
+// Get a single meeting member
+exports.show = function (req, res) {
+  Meeting.findById(req.params.id)//
+    .select('members')//
+    .where('members._id', req.params.member)//
+    .exec(function (err, meeting) {
+      if (err) { return handleError(res, err); }
+      if (!meeting) { return res.send(404); }
+      var member = meeting.members.id(req.params.member);
+      return res.json(member);
+    });
+};
 
 // Creates a new member in the DB.
 exports.create = function (req, res) {
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
-    .populate('members')//
     .select('members')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
@@ -48,7 +48,6 @@ exports.update = function (req, res) {
 
   if (req.body._id) { delete req.body._id; }
   Meeting.findById(req.params.id)//
-    .populate('members')//
     .select('members')//
     .exec(function (err, meeting) {
       var member = meeting.members.id(req.params.member);
