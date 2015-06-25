@@ -10,7 +10,13 @@ MockMeeting.items = [
   {
     title: 'Setup Meetings',
     section: 'Follow-ups',
-    notes: 'Dr Evil can\'t build that "peace" machine.'
+    notes: 'Dr Evil can\'t build that "peace" machine.',
+    assignments: [
+      {
+        owner: {name: _.sample(MockMeeting.members).name},
+        description: 'Get coffee vendor'
+      }
+    ]
   },
   {
     title: 'Save the world',

@@ -8,17 +8,22 @@ var _ = require('lodash');
 var agent = request.agent(app);
 var MockMeeting = require('./meeting.mock');
 
-xdescribe('Meeting Items Api', function () {
+describe('Meeting Items Api', function () {
    var meeting;
    var api;
    var item;
+   var assignment;
+   var newAssignment = {owner: _.sample(meeting.members)};
 
-   var finish = function (done) {
-      api.end(function (error) {
-         if (error) { return done(error); }
-         done();
+   var endpoint = function (assignmentId) {
+      var compiled = _.template('/api/meetings/<%= meetingId %>/items/<%= itemId %>/assignments/<%= assignmentId %>');
+      return compiled({
+         meetingId: meeting._id,
+         itemId: item._id,
+         assignmentId: assignmentId ? assignmentId : ''
       });
-   }.bind(api);
+   };
+
 
    beforeEach(function (done) {
       Meeting.find({}).remove().exec().then(function () {
@@ -28,51 +33,66 @@ xdescribe('Meeting Items Api', function () {
 
             item = _.first(meeting.items);
 
+            assignment = _.first(item.assignments);
+
             done();
          });
       });
    });
 
-   afterEach(finish);
-   afterEach(function () {
+   afterEach(function (done) {
       Meeting.find({}).remove().exec().then(function () {
          done();
       });
    });
 
-   describe('GET All Meeting items', function () {
+   describe('GET all meeting item assignment assignments', function () {
       beforeEach(function () {
          api = agent//
-            .get('/api/meetings/' + meeting._id + '/items')//
+            .get(endpoint())//
             .expect('Content-Type', /json/)//
             .expect(200);
 
       });
+      it('should be a list of assignments', function (done) {
+         api.end(function (error, res) {
+            if (error) { done(error); }
+            res.body.should.be.an.Array().with.length(1);
+            done()
+         });
+      });
    });
 
-   describe('GET A single meeting item', function () {
+   describe('GET A single meeting item assignment', function () {
       beforeEach(function () {
          api = agent//
-            .get('/api/meetings/' + meeting._id + '/items/' + item._id)//
+            .get(endpoint(assignment._id))//
             .expect('Content-Type', /json/)//
             .expect(200);
 
       });
+      it('should be a single item assignment', function (done) {
+         api.end(function (error, res) {
+            if (error) { done(error); }
+            res.body.should.be.an.Object();
+            done()
+         });
+      });
 
    });
 
-   describe('POST A new meeting item', function () {
+   describe('POST A new meeting item assignment', function () {
       beforeEach(function () {
          api = agent//
             .post('/api/meetings/' + meeting._id + '/items')//
             .expect(201)//
-            .expect('Content-Type', /json/)//
+            .expect('Content-Type', /json/);
 
       });
 
    });
 
-   describe('PATCH A meeting item', function () {
+   describe('PATCH A meeting item assignment', function () {
       beforeEach(function () {
          api = agent//
             .patch('/api/meetings/' + meeting._id + '/items/' + item._id)//
@@ -83,7 +103,7 @@ xdescribe('Meeting Items Api', function () {
 
    });
 
-   describe('DELETE A meeting item', function () {
+   describe('DELETE A meeting item assignment', function () {
       beforeEach(function () {
          api = agent//
             .delete('/api/meetings/' + meeting._id + '/items/' + item._id)//

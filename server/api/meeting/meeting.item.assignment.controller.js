@@ -4,26 +4,30 @@ var _ = require('lodash');
 var Meeting = require('./meeting.model.js');
 
 // Get list of meetings
-//exports.index = function (req, res) {
-//  Meeting.findById(req.params.id)//
-//    .populate('assignments')//
-//    .select('assignments')//
-//    .exec(function (err, meeting) {
-//      if (err) { return handleError(res, err); }
-//      return res.json(200, meeting.assignments);
-//    });
-//};
+exports.index = function (req, res) {
+  Meeting.findById(req.params.id)//
+    .populate('items')//
+    .select('items')//
+    .exec(function (err, meeting) {
+      var assignments = meeting.items.id(req.params.item).assignments;
+      if (err) { return handleError(res, err); }
+      if (!meeting || !assignments) { return res.sendStatus(404); }
+
+      return res.status(200).json(assignments);
+    });
+};
 
 // Get a single meeting
-//exports.show = function (req, res) {
-//  Meeting.findById(req.params.id)//
-//    .select('assignments')//
-//    .exec(function (err, meeting) {
-//      if (err) { return handleError(res, err); }
-//      if (!meeting) { return res.send(404); }
-//      return res.json(meeting);
-//    });
-//};
+exports.show = function (req, res) {
+  Meeting.findById(req.params.id)//
+    .select('assignments')//
+    .select('items')//
+    .exec(function (err, meeting) {
+      if (err) { return handleError(res, err); }
+      if (!meeting) { return res.sendStatus(404); }
+      return res.json(meeting);
+    });
+};
 
 // Creates a new meeting in the DB.
 exports.create = function (req, res) {
@@ -32,7 +36,7 @@ exports.create = function (req, res) {
     .select('items._id items.assignments')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      if (!meeting) { return res.send(404); }
+      if (!meeting) { return res.sendStatus(404); }
 
 
       var item = meeting.items.id(req.params.item);
@@ -45,7 +49,7 @@ exports.create = function (req, res) {
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
 
-        return res.json(201, assignment);
+        return res.status(201).json(assignment);
 
       });
     });
@@ -58,14 +62,14 @@ exports.update = function (req, res) {
     .select('items._id items.assignments')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      if (!meeting) { return res.send(404); }
+      if (!meeting) { return res.sendStatus(404); }
 
       var assignment = meeting.items.id(req.params.item).assignments.id(req.params.assignment);
 
       _.merge(assignment, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, assignment);
+        return res.status(200).json(assignment);
       });
     });
 };
@@ -74,7 +78,7 @@ exports.update = function (req, res) {
 //exports.destroy = function (req, res) {
 //  Meeting.findById(req.params.id, function (err, meeting) {
 //    if (err) { return handleError(res, err); }
-//    if (!meeting) { return res.send(404); }
+//    if (!meeting) { return res.sendStatus(404); }
 //    meeting.remove(function (err) {
 //      if (err) { return handleError(res, err); }
 //      return res.send(204);

@@ -38,8 +38,8 @@ router.patch('/:id/items/:item', item.update);
 /**
  * Meeting.Topics.Assignments
  **/
-//router.get('/:id/items/:item/assignments', assignment.index);
-//router.get('/:id/items/:item/assignments/:assignment', assignment.show);
+router.get('/:id/items/:item/assignments', assignment.index);
+router.get('/:id/items/:item/assignments/:assignment', assignment.show);
 router.post('/:id/items/:item/assignments', assignment.create);
 router.put('/:id/items/:item/assignments/:assignment', assignment.update);
 router.patch('/:id/items/:item/assignments/:assignment', assignment.update);
