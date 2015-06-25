@@ -6,24 +6,12 @@ var request = require('supertest');
 var Meeting = require('./meeting.model');
 var _ = require('lodash');
 var agent = request.agent(app);
+var MockMeeting = require('./meeting.mock');
 
 var clean = function (done) {
     Meeting.find({}).remove().exec().then(function () {done();});
 };
 
-var MockMeeting = {
-    items: [
-        {
-            title: 'save the world',
-            section: 'New Items',
-            notes: 'create ai'
-        }
-    ],
-    members: [
-        {name: 'Joe Sixpack'},
-        {name: 'Susy The plumber'}
-    ]
-};
 
 
 describe('Meeting Members API', function () {
@@ -33,7 +21,7 @@ describe('Meeting Members API', function () {
 
     var finish = function (done) {
         api.end(function (error) {
-            if (error) { done(error); }
+            if (error) { return done(error); }
             done();
         });
     }.bind(api);
@@ -72,7 +60,7 @@ describe('Meeting Members API', function () {
 
         it('should return an array of members', function () {
             api.expect(function (res) {
-                res.body.should.be.length(2);
+                res.body.should.be.length(10);
                 res.body.should.be.an.Array();
             });
         });

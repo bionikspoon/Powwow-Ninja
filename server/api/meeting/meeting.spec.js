@@ -6,17 +6,7 @@ var request = require('supertest');
 var Meeting = require('./meeting.model');
 var _ = require('lodash');
 var agent = request.agent(app);
-
-var MockMeeting = {
-    items: [
-        {
-            title: 'save the world',
-            section: 'New Items',
-            notes: 'create ai'
-        }
-    ],
-    members: []
-};
+var MockMeeting = require('./meeting.mock');
 
 describe('Meeting API', function () {
     var meeting;
@@ -24,7 +14,7 @@ describe('Meeting API', function () {
 
     var finish = function (done) {
         api.end(function (error) {
-            if (error) { done(error); }
+            if (error) { return done(error); }
             done();
         });
     }.bind(api);
@@ -34,6 +24,12 @@ describe('Meeting API', function () {
             done();
         });
     });
+    afterEach(function (done) {
+        Meeting.find({}).remove().exec().then(function () {
+            done();
+        });
+    });
+
 
     describe('GET All meetings', function () {
         beforeEach(function () {
@@ -131,8 +127,8 @@ describe('Meeting API', function () {
                 .expect(function (res) {
 
                     res.body.should.be.an.Object();
-                    res.body.should.have.property('members').with.length(0);
-                    res.body.should.have.property('items').with.length(1);
+                    res.body.should.have.property('members').with.length(10);
+                    res.body.should.have.property('items').with.length(4);
 
                 });
         });
@@ -175,5 +171,3 @@ describe('Meeting API', function () {
     });
 
 });
-
-

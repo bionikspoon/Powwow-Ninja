@@ -7,6 +7,7 @@
 
 var User = require('../api/user/user.model');
 var Meeting = require('../api/meeting/meeting.model');
+var MockMeeting = require('../api/meeting/meeting.mock');
 
 var faker = require('faker');
 var _ = require('lodash');
@@ -55,35 +56,8 @@ Meeting.find({}).remove(function (error) {
   if (error) { console.error(error); }
 
   var meeting = new Meeting({_id: '5580e935cc779b683340e6bd'});
-
-  meeting.members = _.uniq(_.times(10, function () {
-    return {name: faker.name.findName()};
-  }));
-  meeting.items = [
-    {
-      title: 'Setup meetings',
-      section: 'Follow-ups'
-    },
-    {
-      title: 'Save the world',
-      section: 'New Items',
-      assignments: [
-        {
-          owner: {name: _.sample(meeting.members).name},
-          description: 'Build doomsday device!'
-        }
-      ]
-    },
-    {
-      title: 'Work on project',
-      section: 'New Items'
-    },
-    {
-      title: 'Solve the problem',
-      section: 'New Items'
-    }
-
-  ];
+  meeting.members = MockMeeting.members;
+  meeting.items = MockMeeting.items;
 
   meeting.save(function (error) {
     if (error) { console.error(error); }
