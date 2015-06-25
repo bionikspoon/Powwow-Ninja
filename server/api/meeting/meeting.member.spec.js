@@ -5,6 +5,7 @@ var app = require('../../app');
 var request = require('supertest');
 var Meeting = require('./meeting.model');
 var _ = require('lodash');
+var agent = request.agent(app);
 
 var clean = function (done) {
     Meeting.find({}).remove().exec().then(function () {done();});
@@ -24,143 +25,160 @@ var MockMeeting = {
     ]
 };
 
-describe('Meeting Members API', function (done) {
 
-    beforeEach(clean.bind(done));
-    afterEach(clean.bind(done));
+describe('Meeting Members API', function () {
+    var meeting;
+    var api;
+    var member;
 
-    describe('Working with members collection', function () {
-        var meeting;
-        beforeEach(function (done) {
+    var finish = function (done) {
+        api.end(function (error) {
+            if (error) { done(error); }
+            done();
+        });
+    }.bind(api);
+
+    beforeEach(function (done) {
+        Meeting.find({}).remove().exec().then(function () {
             Meeting.create(MockMeeting, function (error, meetingResponse) {
                 if (error) { return done(error); }
                 meeting = meetingResponse;
+
+                member = _.first(meeting.members);
+
                 done();
             });
         });
 
-        it('should return an array of members', function (done) {
-            request(app)//
+    });
+
+    afterEach(function (done) {
+        Meeting.find({}).remove().exec().then(function () {
+
+            done();
+        });
+    });
+
+    describe('GET Meeting members', function () {
+        beforeEach(function () {
+            api = agent//
                 .get('/api/meetings/' + meeting._id + '/members')//
-                .expect(200)//
                 .expect('Content-Type', /json/)//
-                .end(function (err, res) {
-                    if (err) return done(err);
-                    res.body.should.be.length(2);
-                    res.body.should.be.instanceof(Array);
-                    done();
-                });
+                .expect(200);
+
         });
 
-        it('should create a new member', function (done) {
-            var newMember = {name: 'Dwayne Johnson'};
-            request(app)//
+        afterEach(finish);
+
+        it('should return an array of members', function () {
+            api.expect(function (res) {
+                res.body.should.be.length(2);
+                res.body.should.be.an.Array();
+            });
+        });
+
+    });
+
+    describe('GET A single meeting member', function () {
+        beforeEach(function () {
+            api = agent//
+                .get('/api/meetings/' + meeting._id + '/members/' + member._id)//
+                .expect('Content-Type', /json/)//
+                .expect(200);
+
+        });
+
+        afterEach(finish);
+
+        it('should have correct info', function () {
+            api.expect(function (res) {
+                res.body.should.be.an.Object();
+                res.body.name.should.equal(member.name);
+            });
+        });
+        it('should include document id', function () {
+            api.expect(function (res) {
+                res.body._id.should.match(/[a-f0-9]{24}/i)//
+                    .and.equal(member.id);
+
+            });
+        });
+
+    });
+
+    describe('POST to create new meeting member', function () {
+        var newMember;
+        beforeEach(function () {
+            newMember = {name: 'Dwayne Johnson'};
+            api = agent//
                 .post('/api/meetings/' + meeting._id + '/members')//
                 .expect(201)//
                 .expect('Content-Type', /json/)//
-                .send(newMember)//
-                .end(function (error, res) {
-                    if (error) { return done(error); }
-                    res.body.name.should.be.equal(newMember.name);
-                    res.body.should.have.property('_id')//
-                        .and.match(/[a-fA-F0-9]{24}/);
-                    done();
+                .send(newMember);
+        });
+
+        afterEach(finish);
+
+        it('should return the new member', function () {
+            api.expect(function (res) {
+                res.body.name.should.be.equal(newMember.name);
+            });
+        });
+        it('should create an id for the new member', function () {
+            api.expect(function (res) {
+                res.body.should.have.property('_id')//
+                    .and.match(/[a-fA-F0-9]{24}/);
+            });
+        });
+
+    });
+
+    describe('PATCH Upate a single meeting member', function () {
+        var memberUpdate = {name: 'Dwayne Johnson'};
+        beforeEach(function () {
+            api = agent//
+                .patch('/api/meetings/' + meeting._id + '/members/' +
+                       member._id)//
+                .expect(200)//
+                .expect('Content-Type', /json/);
+        });
+
+
+        afterEach(finish);
+
+
+        it('should checkin a single member', function () {
+            var now = Date.now();
+            api//
+                .send(memberUpdate)//
+                .expect(function (res) {
+                    res.body.should.be.an.Object();
+                    Date(res.body.checkin).should.equal(Date(now));
                 });
         });
 
-        describe('Working with a member', function () {
-            var member;
-            var MockMember = _.first(MockMeeting.members);
-            beforeEach(function (done) {
-
-                Meeting//
-                    .findOne({'members.name': MockMember.name})//
-                    .select('members')//
-                    .exec(function (error, meeting) {
-                        if (error) { return done(error); }
-                        member = _.findWhere(meeting.members, MockMember);
-                        done();
-                    })
-            });
-
-            it('should return a single member', function (done) {
-                request(app)//
-                    .get('/api/meetings/' + meeting._id + '/members/' +
-                         member._id)//
-                    .expect(200)//
-                    .expect('Content-Type', /json/)//
-                    .end(function (error, res) {
-                        if (error) { return done(error); }
-                        res.body.should.be.an.Object();
-                        res.body.name.should.equal(MockMember.name);
-                        res.body._id.should.match(/[a-f0-9]{24}/i)//
-                            .and.equal(member.id);
-                        done();
-                    });
-            });
-
-            it('should checkin a single member', function (done) {
-                var now = Date.now();
-                request(app)//
-                    .patch('/api/meetings/' + meeting._id + '/members/' +
-                           member._id)//
-                    .expect(200)//
-                    .expect('Content-Type', /json/)//
-                    .send({checkin: now}).end(function (error, res) {
-                        if (error) { return done(error); }
-                        res.body.should.be.an.Object();
-
-                        Date(res.body.checkin).should.equal(Date(now));
-
-
-                        done();
-                    });
-            });
-
-            it('should checkout a single member', function (done) {
-                var now = Date.now();
-                request(app)//
-                    .patch('/api/meetings/' + meeting._id + '/members/' +
-                           member._id)//
-                    .expect(200)//
-                    .expect('Content-Type', /json/)//
-                    .send({
-                        checkin: now,
-                        checkout: now
-                    })//
-                    .end(function (error, res) {
-                        if (error) { return done(error); }
-                        res.body.should.be.an.Object();
-
-                        Date(res.body.checkout).should.equal(Date(now));
-
-
-                        done();
-                    });
-            });
-
-            it('should update a single member', function (done) {
-                var name = 'Dwayne Johnson';
-                request(app)//
-                    .patch('/api/meetings/' + meeting._id + '/members/' +
-                           member._id)//
-                    .expect(200)//
-                    .expect('Content-Type', /json/)//
-                    .send({name: name})//
-                    .end(function (error, res) {
-                        if (error) { return done(error); }
-                        res.body.should.be.an.Object();
-
-                        res.body.name.should.equal(name);
-
-
-                        done();
-                    });
-            });
-
-
+        it('should checkout a single member', function () {
+            var now = Date.now();
+            api//
+                .send({
+                    checkin: now,
+                    checkout: now
+                })//
+                .expect(function (res) {
+                    res.body.should.be.an.Object();
+                    Date(res.body.checkout).should.equal(Date(now));
+                });
         });
+
+        it('should update a single member', function () {
+            api//
+                .send(memberUpdate)//
+                .expect(function (res) {
+                    res.body.should.be.an.Object();
+                    res.body.name.should.equal(memberUpdate.name);
+                });
+        });
+
     });
+
 });
-
-

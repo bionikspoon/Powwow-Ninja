@@ -24,6 +24,34 @@ var MockMeeting = {
 
 describe('Meeting API', function (done) {
 
+    describe('GET All meetings', function () {
+        beforeEach(function () {
+
+        });
+
+    });
+
+    describe('GET A single meeting', function () {
+        beforeEach(function () {
+
+        });
+
+    });
+
+    describe('POST A single meeting', function () {
+        beforeEach(function () {
+
+        });
+
+    });
+
+    describe('PATCH A single meeting', function () {
+        beforeEach(function () {
+
+        });
+
+    });
+
     beforeEach(clean.bind(done));
     afterEach(clean.bind(done));
 
