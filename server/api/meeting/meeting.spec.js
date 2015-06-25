@@ -4,12 +4,8 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var Meeting = require('./meeting.model');
-
-var clean = function (done) {
-    Meeting.find({}).remove().exec().then(function () {
-        done();
-    });
-};
+var _ = require('lodash');
+var agent = request.agent(app);
 
 var MockMeeting = {
     items: [
@@ -22,133 +18,161 @@ var MockMeeting = {
     members: []
 };
 
-describe('Meeting API', function (done) {
+describe('Meeting API', function () {
+    var meeting;
+    var api;
+
+    var finish = function (done) {
+        api.end(function (error) {
+            if (error) { done(error); }
+            done();
+        });
+    }.bind(api);
+
+    beforeEach(function (done) {
+        Meeting.find({}).remove().exec().then(function () {
+            done();
+        });
+    });
 
     describe('GET All meetings', function () {
         beforeEach(function () {
+            api = agent//
+                .get('/api/meetings')//
+                .expect(200)//
+                .expect('Content-Type', /json/);
+        });
 
+        afterEach(finish);
+
+        it('should be an empty array', function () {
+            api//
+                .expect(function (res) {
+                    res.body.should.be.empty();
+                    res.body.should.be.Array();
+                })
+        });
+
+        it('should be a populated array', function (done) {
+            Meeting.create(MockMeeting).then(function () {
+                api//
+                    .expect(function (res) {
+                        res.body.should.be.length(1);
+                        res.body.should.be.Array();
+                    });
+                done();
+            });
         });
 
     });
 
     describe('GET A single meeting', function () {
-        beforeEach(function () {
 
+        beforeEach(function (done) {
+            Meeting.create(MockMeeting, function (error, meetingResponse) {
+                if (error) { done(error); }
+                meeting = meetingResponse;
+                api = agent//
+                    .get('/api/meetings/' + meeting._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/);
+                done();
+            });
+        });
+        afterEach(finish);
+
+
+        it('should be an object with meeting properties', function () {
+            api//
+                .expect(function (res) {
+
+                    res.body.should.be.an.Object();
+                    res.body.should.have.property('members');
+                    res.body.should.have.property('items');
+
+                })
+        });
+        it('should be populated with data', function () {
+            api.expect(function (res) {
+                var item = _.first(res.body.items);
+                var mockItem = _.first(MockMeeting.items);
+                item.title.should.equal(mockItem.title);
+                item.section.should.equal(mockItem.section);
+                item.notes.should.equal(mockItem.notes);
+            });
         });
 
     });
 
     describe('POST A single meeting', function () {
         beforeEach(function () {
+            api = agent//
+                .post('/api/meetings')//
+                .expect(201)//
+                .expect('Content-Type', /json/);
+        });
+        afterEach(finish);
 
+        it('should respond with created meeting', function () {
+            api//
+                .expect(function (res) {
+
+                    res.body.should.be.an.Object();
+                    res.body.should.have.property('members').with.length(0);
+                    res.body.should.have.property('items').with.length(0);
+
+                });
+        });
+
+        it('should create a populated meeting', function () {
+
+            api//
+                .send(MockMeeting)//
+                .expect(function (res) {
+
+                    res.body.should.be.an.Object();
+                    res.body.should.have.property('members').with.length(0);
+                    res.body.should.have.property('items').with.length(1);
+
+                });
+        });
+    });
+
+    describe('PATCH A single meeting', function () {
+        var update = {items: [{title: 'Go to seaworld'}]};
+        beforeEach(function (done) {
+            Meeting.create(MockMeeting, function (error, meetingResponse) {
+                if (error) { done(error); }
+                meeting = meetingResponse;
+                api = agent//
+                    .patch('/api/meetings/' + meeting._id)//
+                    .expect(200)//
+                    .expect('Content-Type', /json/)//
+                done();
+            });
+        });
+        afterEach(finish);
+
+        it('should update a single meeting', function () {
+
+            api//
+                .send(update)//
+                .expect(function (res) {
+                    var item = _.first(res.body.items);
+                    var updateItem = _.first(update.items);
+                    item.title.should.be.equal(updateItem.title);
+
+                });
         });
 
     });
 
-    describe('PATCH A single meeting', function () {
+    describe('DELETE A single Meeting', function () {
         beforeEach(function () {
 
         });
 
     });
-
-    beforeEach(clean.bind(done));
-    afterEach(clean.bind(done));
-
-    it('should respond with JSON array', function (done) {
-        request(app)//
-            .get('/api/meetings')//
-            .expect(200)//
-            .expect('Content-Type', /json/)//
-            .end(function (err, res) {
-                if (err) return done(err);
-                res.body.should.be.empty();
-                res.body.should.be.instanceof(Array);
-                done();
-            });
-    });
-
-    it('should create a new empty meeting', function (done) {
-        request(app)//
-            .post('/api/meetings')//
-            .expect(201)//
-            .expect('Content-Type', /json/)//
-            .end(function (error, res) {
-                if (error) { done(error); }
-
-                res.body.should.be.an.instanceOf(Object);
-                res.body.should.have.property('members').with.length(0);
-                res.body.should.have.property('items').with.length(0);
-
-                done();
-            });
-    });
-
-    it('should create a populated meeting', function (done) {
-
-        request(app)//
-            .post('/api/meetings')//
-            .expect(201)//
-            .expect('Content-Type', /json/)//
-            .send(MockMeeting)//
-            .end(function (error, res) {
-                if (error) { done(error); }
-
-                res.body.should.be.an.Object();
-                res.body.should.have.property('members').with.length(0);
-                res.body.should.have.property('items').with.length(1);
-
-                done();
-            });
-    });
-
-    describe('Working with a meeting', function () {
-        var meeting;
-        beforeEach(function (done) {
-            Meeting.create(MockMeeting, function (error, meetingResponse) {
-                if (error) { done(error); }
-                meeting = meetingResponse;
-                done();
-            });
-        });
-
-        it('should return a single meeting', function (done) {
-
-            request(app)//
-                .get('/api/meetings/' + meeting._id)//
-                .expect(200)//
-                .expect('Content-Type', /json/)//
-                .end(function (error, res) {
-                    if (error) { done(error); }
-
-                    res.body.should.be.an.Object();
-                    var item = res.body.items[0];
-                    var mockItem = MockMeeting.items[0];
-                    item.title.should.equal(mockItem.title);
-                    item.section.should.equal(mockItem.section);
-                    item.notes.should.equal(mockItem.notes);
-
-
-                    done();
-
-                })
-        });
-
-        it('should update a single meeting', function (done) {
-            var update = {items: [{title: 'Go to seaworld'}]};
-            request(app)//
-                .patch('/api/meetings/' + meeting._id)//
-                .expect(200)//
-                .expect('Content-Type', /json/)//
-                .send(update)//
-                .end(function (error, res) {
-                    if (error) { done(error); }
-                    res.body.items[0].title.should.be.equal(update.items[0].title);
-                    done();
-                })
-        });
-    });
-
 
 });
 
