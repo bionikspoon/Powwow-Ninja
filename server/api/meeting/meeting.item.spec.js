@@ -8,161 +8,141 @@ var _ = require('lodash');
 var agent = request.agent(app);
 var MockMeeting = require('./meeting.mock');
 
+describe('Meeting Items Api', function () {
+   var meeting;
+   var api;
+   var item;
+   var mockItem = _.first(MockMeeting.items);
+   var newItem = {
+      title: 'Go to Canada',
+      notes: 'Must be first class tickets',
+      status: 'NEW'
+   };
+   var updateItem = {
+      title: newItem.title
+   };
 
-//describe('Meeting API', function () {
-//    var meeting;
-//    var api;
-//
-//    var finish = function (done) {
-//        api.end(function (error) {
-//            if (error) { done(error); }
-//            done();
-//        });
-//    }.bind(api);
-//
-//    beforeEach(function (done) {
-//        Meeting.find({}).remove().exec().then(function () {
-//            done();
-//        });
-//    });
-//
-//    describe('GET All meetings', function () {
-//        beforeEach(function () {
-//            api = agent//
-//                .get('/api/meetings')//
-//                .expect(200)//
-//                .expect('Content-Type', /json/);
-//        });
-//
-//        afterEach(finish);
-//
-//        it('should be an empty array', function () {
-//            api//
-//                .expect(function (res) {
-//                    res.body.should.be.empty();
-//                    res.body.should.be.Array();
-//                })
-//        });
-//
-//        it('should be a populated array', function (done) {
-//            Meeting.create(MockMeeting).then(function () {
-//                api//
-//                    .expect(function (res) {
-//                        res.body.should.be.length(1);
-//                        res.body.should.be.Array();
-//                    });
-//                done();
-//            });
-//        });
-//
-//    });
-//
-//    describe('GET A single meeting', function () {
-//
-//        beforeEach(function (done) {
-//            Meeting.create(MockMeeting, function (error, meetingResponse) {
-//                if (error) { done(error); }
-//                meeting = meetingResponse;
-//                api = agent//
-//                    .get('/api/meetings/' + meeting._id)//
-//                    .expect(200)//
-//                    .expect('Content-Type', /json/);
-//                done();
-//            });
-//        });
-//        afterEach(finish);
-//
-//
-//        it('should be an object with meeting properties', function () {
-//            api//
-//                .expect(function (res) {
-//
-//                    res.body.should.be.an.Object();
-//                    res.body.should.have.property('members');
-//                    res.body.should.have.property('items');
-//
-//                })
-//        });
-//        it('should be populated with data', function () {
-//            api.expect(function (res) {
-//                var item = _.first(res.body.items);
-//                var mockItem = _.first(MockMeeting.items);
-//                item.title.should.equal(mockItem.title);
-//                item.section.should.equal(mockItem.section);
-//                item.notes.should.equal(mockItem.notes);
-//            });
-//        });
-//
-//    });
-//
-//    describe('POST A single meeting', function () {
-//        beforeEach(function () {
-//            api = agent//
-//                .post('/api/meetings')//
-//                .expect(201)//
-//                .expect('Content-Type', /json/);
-//        });
-//        afterEach(finish);
-//
-//        it('should respond with created meeting', function () {
-//            api//
-//                .expect(function (res) {
-//
-//                    res.body.should.be.an.Object();
-//                    res.body.should.have.property('members').with.length(0);
-//                    res.body.should.have.property('items').with.length(0);
-//
-//                });
-//        });
-//
-//        it('should create a populated meeting', function () {
-//
-//            api//
-//                .send(MockMeeting)//
-//                .expect(function (res) {
-//
-//                    res.body.should.be.an.Object();
-//                    res.body.should.have.property('members').with.length(0);
-//                    res.body.should.have.property('items').with.length(1);
-//
-//                });
-//        });
-//    });
-//
-//    describe('PATCH A single meeting', function () {
-//        var update = {items: [{title: 'Go to seaworld'}]};
-//        beforeEach(function (done) {
-//            Meeting.create(MockMeeting, function (error, meetingResponse) {
-//                if (error) { done(error); }
-//                meeting = meetingResponse;
-//                api = agent//
-//                    .patch('/api/meetings/' + meeting._id)//
-//                    .expect(200)//
-//                    .expect('Content-Type', /json/)//
-//                done();
-//            });
-//        });
-//        afterEach(finish);
-//
-//        it('should update a single meeting', function () {
-//
-//            api//
-//                .send(update)//
-//                .expect(function (res) {
-//                    var item = _.first(res.body.items);
-//                    var updateItem = _.first(update.items);
-//                    item.title.should.be.equal(updateItem.title);
-//
-//                });
-//        });
-//
-//    });
-//
-//    describe('DELETE A single Meeting', function () {
-//        beforeEach(function () {
-//
-//        });
-//
-//    });
-//
-//});
+   beforeEach(function (done) {
+      Meeting.find({}).remove().exec().then(function () {
+         Meeting.create(MockMeeting, function (error, meetingResponse) {
+            if (error) { return done(error); }
+            meeting = meetingResponse;
+
+            item = _.first(meeting.items);
+
+            done();
+         });
+      });
+   });
+
+   //afterEach(finish);
+   afterEach(function (done) {
+      Meeting.find({}).remove().exec().then(function () {
+         done();
+      });
+   });
+
+   describe('GET All Meeting items', function () {
+      beforeEach(function () {
+         api = agent//
+            .get('/api/meetings/' + meeting._id + '/items')//
+            .expect('Content-Type', /json/)//
+            .expect(200);
+      });
+      it('should be an array of items', function (done) {
+         api.end(function (err, res) {
+            if (err) {return done(err);}
+            res.body.should.be.an.Array().with.length(4);
+            done();
+         })
+      });
+   });
+
+   describe('GET A single meeting item', function () {
+      beforeEach(function () {
+         api = agent//
+            .get('/api/meetings/' + meeting._id + '/items/' + item._id)//
+            .expect('Content-Type', /json/)//
+            .expect(200);
+      });
+
+      it('should have item properties', function (done) {
+         api.end(function (err, res) {
+            if (err) {return done(err);}
+            res.body.should.be.an.Object();
+            res.body.should.have.property('title');
+            res.body.should.have.property('section');
+            res.body.should.have.property('notes');
+            res.body.should.have.property('_id');
+
+            done();
+         })
+      });
+
+      it('should have the right values', function (done) {
+         api.end(function (err, res) {
+            if (err) {return done(err)}
+            res.body.title.should.equal(mockItem.title);
+            res.body.section.should.equal(mockItem.section);
+            res.body.notes.should.equal(mockItem.notes);
+            res.body['_id'].should.match(/[a-f0-9]{24}/i);
+
+            done();
+         })
+      });
+   });
+
+   describe('POST A new meeting item', function () {
+      beforeEach(function () {
+         api = agent//
+            .post('/api/meetings/' + meeting._id + '/items')//
+            .expect(201)//
+            .expect('Content-Type', /json/);
+      });
+      it('response with new item', function (done) {
+         api.send(newItem)//
+            .end(function (err, res) {
+               if (err) {return done(err);}
+               res.body.should.be.an.Object();
+               res.body['_id'].should.match(/[a-f0-9]{24}/i);
+               res.body.title.should.equal(newItem.title);
+               res.body.status.should.equal(newItem.status);
+               res.body.section.should.equal('New Items');
+               res.body.notes.should.equal(newItem.notes);
+               done();
+            });
+      });
+   });
+
+   describe('PATCH A meeting item', function () {
+      beforeEach(function () {
+         api = agent//
+            .patch('/api/meetings/' + meeting._id + '/items/' + item._id)//
+            .expect(200)//
+            .expect('Content-Type', /json/);
+
+      });
+      it('should return the updated item', function (done) {
+         api.send(updateItem)//
+            .end(function (err, res) {
+               if (err) {return done(err);}
+               res.body.should.be.an.Object();
+               //res.body.id.should.equal(item.id);
+               res.body.title.should.equal(updateItem.title);
+
+
+               done();
+            });
+      });
+
+   });
+
+   describe('DELETE A meeting item', function () {
+      beforeEach(function () {
+         api = agent//
+            .delete('/api/meetings/' + meeting._id + '/items/' + item._id)//
+            .expect(200)//
+            .expect('Content-Type', /json/);
+      });
+   });
+});

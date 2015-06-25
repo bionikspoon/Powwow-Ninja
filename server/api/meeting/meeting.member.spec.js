@@ -39,6 +39,7 @@ describe('Meeting Members API', function () {
 
    });
 
+   afterEach(finish);
    afterEach(function (done) {
       Meeting.find({}).remove().exec().then(function () {
 
@@ -52,10 +53,8 @@ describe('Meeting Members API', function () {
             .get('/api/meetings/' + meeting._id + '/members')//
             .expect('Content-Type', /json/)//
             .expect(200);
-
       });
 
-      afterEach(finish);
 
       it('should return an array of members', function () {
          api.expect(function (res) {
@@ -75,7 +74,6 @@ describe('Meeting Members API', function () {
 
       });
 
-      afterEach(finish);
 
       it('should have correct info', function () {
          api.expect(function (res) {
@@ -104,7 +102,6 @@ describe('Meeting Members API', function () {
             .send(newMember);
       });
 
-      afterEach(finish);
 
       it('should return the new member', function () {
          api.expect(function (res) {
@@ -128,9 +125,6 @@ describe('Meeting Members API', function () {
             .expect(200)//
             .expect('Content-Type', /json/);
       });
-
-
-      afterEach(finish);
 
 
       it('should checkin a single member', function () {

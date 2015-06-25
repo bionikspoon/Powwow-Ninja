@@ -20,7 +20,7 @@ exports.show = function (req, res) {
     .where('members._id', req.params.member)//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      if (!meeting) { return res.send(404); }
+      if (!meeting) { return res.sendStatus(404); }
       var member = meeting.members.id(req.params.member);
       return res.json(member);
     });
@@ -33,7 +33,7 @@ exports.create = function (req, res) {
     .select('members')//
     .exec(function (err, meeting) {
       if (err) { return handleError(res, err); }
-      if (!meeting) { return res.send(404); }
+      if (!meeting) { return res.sendStatus(404); }
       var member = _.first(meeting.members.addToSet(req.body));
 
       meeting.save(function (err) {
@@ -52,7 +52,7 @@ exports.update = function (req, res) {
     .exec(function (err, meeting) {
       var member = meeting.members.id(req.params.member);
       if (err) { return handleError(res, err); }
-      if (!meeting) { return res.send(404); }
+      if (!meeting) { return res.sendStatus(404); }
       _.merge(member, req.body);
       meeting.save(function (err) {
         if (err) { return handleError(res, err); }
@@ -65,7 +65,7 @@ exports.update = function (req, res) {
 //exports.destroy = function (req, res) {
 //  Meeting.findById(req.params.id, function (err, meeting) {
 //    if (err) { return handleError(res, err); }
-//    if (!meeting) { return res.send(404); }
+//    if (!meeting) { return res.sendStatus(404); }
 //    meeting.remove(function (err) {
 //      if (err) { return handleError(res, err); }
 //      return res.send(204);
