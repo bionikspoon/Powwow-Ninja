@@ -36,7 +36,6 @@ MockMeeting.items = [
     title: 'Solve the problem',
     section: 'New Items'
   }
-
 ];
 
 module.exports = MockMeeting;
