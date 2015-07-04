@@ -55,5 +55,4 @@ describe('Filter: groupBy', function () {
       var actual = groupBy(assignments);
       expect(actual['New Items']).toContain(expected['New Items']);
    });
-
 });
