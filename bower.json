@@ -1,7 +1,7 @@
 {
 	"name": "powwow-ninja",
 	"version": "0.0.1",
-	"description": "Meeting, Manu Phatak, MEAN",
+	"description": "Be a blackbelt in meeting fu.",
 	"dependencies": {
 		"bootstrap": "~3",
 		"angular": "~1.2",

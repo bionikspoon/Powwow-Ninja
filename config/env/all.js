@@ -3,8 +3,8 @@
 module.exports = {
 	app: {
 		title: 'Powwow-Ninja',
-		description: 'Meeting, Manu Phatak, MEAN',
-		keywords: 'Manu Phatak, MEAN, Meeting'
+		description: 'Be a blackbelt in meeting fu.',
+		keywords: 'MongoDB, Express, AngularJS, Node.js'
 	},
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
