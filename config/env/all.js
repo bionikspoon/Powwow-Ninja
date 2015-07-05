@@ -1,7 +1,7 @@
 'use strict';
 
-var path = require('path'),
-  rootPath = path.normalize(__dirname + '/../..');
+var path = require('path');
+var rootPath = path.normalize(__dirname + '/../..');
 
 module.exports = {
   root: rootPath,
@@ -32,23 +32,27 @@ module.exports = {
   sessionCookie: {
     path: '/',
     httpOnly: true,
+
     // If secure is set to true then it will cause the cookie to be set
     // only when SSL-enabled (HTTPS) is used, and otherwise it won't
     // set a cookie. 'true' is recommended yet it requires the above
     // mentioned pre-requisite.
     secure: false,
+
     // Only set the maxAge to null if the cookie shouldn't be expired
     // at all. The cookie will expunge when the browser is closed.
     maxAge: null
   },
-  languages: [{
-    name: 'en',
-    direction: 'ltr',
-  }, {
-    name: 'he',
-    direction: 'rtl',
-  }],
-  currentLanguage: 'en',
-  // The session cookie name
+  languages: [
+    {
+      name: 'en',
+      direction: 'ltr'
+    },
+    {
+      name: 'he',
+      direction: 'rtl'
+    }
+  ],
+  currentLanguage: 'en', // The session cookie name
   sessionName: 'connect.sid'
 };
